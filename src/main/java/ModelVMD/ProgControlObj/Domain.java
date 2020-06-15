@@ -46,8 +46,12 @@ public class Domain {
     // if IN_USE
     ArrayList<Object> progInvocRefsList;
     boolean uploadInProgress; // происходит ли подгрузка данных
-    String additDetail;
+//    String additDetail;
 
     String domName;
+
+    Domain(String name){
+        domName = name;
+    }
 
 }

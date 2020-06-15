@@ -40,6 +40,16 @@ public class ProgInvocation {
     EventCondition EC_refs;
     EventEnrollment EE_refs;
 
+    void monitoring(){
+        Thread tready = new Thread(() -> {
+            while (true) {
+
+            }
+        });
+        tready.start();
+
+    }
+
     String execArgument;
     String additDetail;
 }

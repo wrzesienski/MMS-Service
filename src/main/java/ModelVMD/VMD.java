@@ -1,8 +1,5 @@
 package ModelVMD;
 
-import ModelVMD.ProgControlObj.Domain;
-import ModelVMD.ProgControlObj.ProgInvocation;
-
 import java.util.*;
 
 /**
@@ -15,7 +12,7 @@ public class VMD{
 
     // logic field access of potential services
     public enum logStatus {
-        TATE_CHANGES_ALLOWED,
+        STATE_CHANGES_ALLOWED,
         NO_STATE_CHANGES_ALLOWED,
         LIMITED_SERVICES_SUPPORTED
     }
@@ -38,59 +35,61 @@ public class VMD{
     String execFunc; // ??
 
     // **** model information
-    String vendorName;
-    String modelName; // vmd name
-    String revision;
+    private String vendorName;
+    private String modelName; // vmd name
+    private String revision;
     // ****
 
-    logStatus log_actStatus;
-    physStatus phys_actStatus;
-    ArrayList<capService> capList; // list of capabilities
+    private logStatus logActStatus;
+    private physStatus phys_actStatus;
+    private ArrayList<capService> capList; // list of capabilities
     ArrayList<Object> progInvocList; // list of programm invocations
-    ArrayList<Object> domainList; //list of domains
+    private ArrayList<Object> domainList; //list of domains
 
-    private HashMap<String, Object> vmdVolume;
 
-    VMD(String name){
-        vmdVolume = new HashMap<String, Object>();
+    VMD(String venName, String modName, String rev,
+        logStatus logSt, physStatus phSt, ArrayList<Object> domList){
+        vendorName = venName;
+        modelName = modName;
+        revision = rev;
+        logActStatus = logSt;
+        phys_actStatus = phSt;
+        domainList = domList;
+        fillCapList(logActStatus);
     }
 
-    //*************
-    String Identify(){return "";}
-    String getCapabList(){return "";}
-    String Status(){return "";}
-    ArrayList<Object> getNameList(){return null;}
+    private void fillCapList(logStatus ls){
+        switch (logActStatus){
+            case STATE_CHANGES_ALLOWED:
+                break;
+            case NO_STATE_CHANGES_ALLOWED:
+                break;
+            case LIMITED_SERVICES_SUPPORTED:
+                break;
+            default:
+                break;
+        }
+    }
+
+    String Identify(){return vendorName+" "+modelName+" "+revision;}
+
+    ArrayList<capService> getCapabList(){
+        return capList;
+    }
+
+    String Status(){return logActStatus.toString()+" "+phys_actStatus.toString();}
+
+    ArrayList<Object> getNameList(){return domainList;}
+
     void rename(){
         Scanner in = new Scanner(System.in);
-        System.out.print("OLD_NAME: ");
+        System.out.print("VMD_OLD_NAME: ");
         String oldName = in.next();
-        System.out.print("NEW_NAME: ");
+        for (Object domain: domainList){
+
+        }
+        System.out.print("VMD_NEW_NAME: ");
         String newName = in.next();
         // TO DO
-    }
-    //**************
-
-    public Object get(String objName) {
-        return vmdVolume.get(objName);
-    }
-
-    public void set(Object someObj) {
-    }
-
-    public void addToMap(String objName, Object someObj){
-        vmdVolume.put(objName, someObj);
-    }
-
-    public Object[] getQueryAttributes() {
-        return new Object[0];
-    }
-
-    public void rename(String objOldName, String objNewName) {
-        Object obj = vmdVolume.remove(objOldName);
-        vmdVolume.put(objNewName, obj);
-    }
-
-    public void destroy(String objName) {
-        vmdVolume.remove(objName);
     }
 }

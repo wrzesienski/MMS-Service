@@ -7,15 +7,21 @@ public class EventCondition {
     }
 
     boolean mmsDeletable;
-    eventConStatus state;
+    eventConStatus state = eventConStatus.IDLE;
     boolean priority;
     boolean severity;
-    boolean monitoredVar;
+    Object monitoredVar;
     boolean enabled;
     boolean alarmSumRep;
     boolean evaluationInterval;
     long timeLastActive;
     long timeLastIdle;
+
+    EventCondition(Object monitVar, boolean deletable){
+        monitoredVar = monitVar;
+        mmsDeletable = deletable;
+
+    }
 
     void defineEventCon(){};
     void deleteEventCon(){};

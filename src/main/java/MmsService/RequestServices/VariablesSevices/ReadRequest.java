@@ -1,15 +1,28 @@
 package MmsService.RequestServices.VariablesSevices;
 
-import ASN_1.MyBerNode;
-import MmsService.Data;
-import MmsService.MyInterface;
+import MmsService.RequestService;
+import ModelVMD.VMD;
 
-public class ReadRequest implements MyInterface {
+/*
+Read-Request ::= SEQUENCE
+	{
+	specificationWithResult		[0] IMPLICIT BOOLEAN DEFAULT FALSE,
+	variableAccessSpecificatn	[1] VariableAccessSpecification
+	}
+ */
 
-    public Object get(MyBerNode berNode){
-        switch (berNode.getId().getTag()){
+public class ReadRequest extends RequestService {
+
+
+    public ReadRequest(VMD vmd){
+        super(vmd, ServiceType.SEQUENCE);
+    }
+
+    @Override
+    public String choice(int tag) {
+        switch (tag){
             case 0:
-                return new Data();
+                return "0";
             case 1:
                 return "1";
             default:
@@ -18,7 +31,7 @@ public class ReadRequest implements MyInterface {
     }
 
     @Override
-    public MyBerNode convert() {
+    public String build(String data) {
         return null;
     }
 }

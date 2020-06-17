@@ -1,16 +1,22 @@
 package MmsService.RequestServices.VariablesSevices;
 
-import ASN_1.MyBerNode;
-import MmsService.MyInterface;
+import MmsService.ServiceInterface;
 
-public class WriteRequest implements MyInterface {
+public class WriteRequest implements ServiceInterface {
+
+
     @Override
-    public Object get(MyBerNode berNode) {
+    public String choice(int tag) {
         return null;
     }
 
     @Override
-    public MyBerNode convert() {
+    public String build(String data) {
+        return null;
+    }
+
+    @Override
+    public String process(String data) {
         return null;
     }
 }

@@ -1,6 +1,14 @@
 package ModelVMD.EventObj;
 
-public class EventCondition {
+import ModelVMD.MMSVar;
+import ModelVMD.MmsObjectType;
+
+public class EventCondition extends MMSVar {
+
+    EventCondition(String name){
+        setObjName(name);
+        setType(MmsObjectType.EVENT_CONDITION);
+    }
 
     enum eventConStatus{
         IDLE, ACTIVE, DISABLED

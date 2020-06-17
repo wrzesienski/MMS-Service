@@ -1,34 +1,39 @@
 package MmsService.RequestServices.VmdServices;
 
-import ASN_1.MyBerNode;
-import MmsService.MyInterface;
-import MmsService.RequestServices.GetNameList.ObjectClass;
-import MmsService.RequestServices.GetNameList.ObjectScope;
+import MmsService.RequestService;
+import MmsService.RequestServices.VmdServices.GetNameList.ObjectClass;
+import MmsService.RequestServices.VmdServices.GetNameList.ObjectScope;
+import ModelVMD.VMD;
 
 /*
 GetNameList-Request ::= SEQUENCE
 	{
-		objectClass		[0] IMPLICIT INTEGER,
+	objectClass		[0] IMPLICIT INTEGER,
 	objectScope 		[1] CHOICE,
 	continueAfter 	[2] IMPLICIT Identifier OPTIONAL
 	}
  */
 
 
-public class GetNameListRequest implements MyInterface {
+public class GetNameListRequest extends RequestService {
+
+    public GetNameListRequest(VMD vmd) {
+        super(vmd, ServiceType.SEQUENCE);
+    }
+
     @Override
-    public Object get(MyBerNode berNode) {
-        switch (berNode.getId().getTag()){
+    public String choice(int tag) {
+        switch (tag){
             case 0:
-                return new ObjectClass().get((MyBerNode) berNode.getContent());
+                return new ObjectClass(getVmd()).process(getData());
             case 1:
-                return new ObjectScope().get((MyBerNode) berNode.getContent());
+                return new ObjectScope(getVmd()).process(getData());
         }
         return null;
     }
 
     @Override
-    public MyBerNode convert() {
+    public String build(String data) {
         return null;
     }
 }

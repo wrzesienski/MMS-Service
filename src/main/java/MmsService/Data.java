@@ -1,13 +1,13 @@
 package MmsService;
 
 import ASN_1.Identifier;
-import ASN_1.MyBerNode;
+import ASN_1.BerNode;
 
 public class Data {
 
 
-    public static MyBerNode convert(Object obj){
-        MyBerNode berNode = new MyBerNode();
+    public static BerNode convert(Object obj){
+        BerNode berNode = new BerNode();
         Identifier id = new Identifier();
         id.setTag(0);
         id.setStruct(0);

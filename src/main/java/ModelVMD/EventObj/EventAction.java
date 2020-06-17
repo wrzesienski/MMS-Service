@@ -1,6 +1,14 @@
 package ModelVMD.EventObj;
 
-public class EventAction {
+import ModelVMD.MMSVar;
+import ModelVMD.MmsObjectType;
+
+public class EventAction extends MMSVar {
+
+    EventAction(String name){
+        setObjName(name);
+        setType(MmsObjectType.EVENT_ACTION);
+    }
 
     boolean mmsDeletable;
     boolean serviceReq;

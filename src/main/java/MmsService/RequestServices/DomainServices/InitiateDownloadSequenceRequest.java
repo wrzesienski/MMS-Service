@@ -1,7 +1,6 @@
 package MmsService.RequestServices.DomainServices;
 
-import ASN_1.MyBerNode;
-import MmsService.MyInterface;
+import MmsService.ServiceInterface;
 
 /*
 InitiateDownloadSequence-Request ::= SEQUENCE
@@ -12,15 +11,20 @@ InitiateDownloadSequence-Request ::= SEQUENCE
 	}
  */
 
-public class InitiateDownloadSequenceRequest implements MyInterface {
+public class InitiateDownloadSequenceRequest implements ServiceInterface {
 
     @Override
-    public Object get(MyBerNode berNode) {
+    public String choice(int tag) {
         return null;
     }
 
     @Override
-    public MyBerNode convert() {
+    public String build(String data) {
+        return null;
+    }
+
+    @Override
+    public String process(String data) {
         return null;
     }
 }

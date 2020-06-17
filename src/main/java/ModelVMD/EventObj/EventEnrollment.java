@@ -1,6 +1,14 @@
 package ModelVMD.EventObj;
 
-public class EventEnrollment {
+import ModelVMD.MMSVar;
+import ModelVMD.MmsObjectType;
+
+public class EventEnrollment extends MMSVar {
+
+    EventEnrollment(String name){
+        setObjName(name);
+        setType(MmsObjectType.EVENT_ENROLLMENT);
+    }
 
     enum AlarmAcknowledgmentRules{
         NONE, SIMPLE, ACK_ACTIVE, ACK_ALL,

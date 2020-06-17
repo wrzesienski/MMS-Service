@@ -36,8 +36,6 @@ package hzon;
  * Chaos In Motion is at http://www.chaosinmotion.com
  */
 
-import Connect.LengthInputStream;
-
 import java.io.*;
 import java.util.BitSet;
 

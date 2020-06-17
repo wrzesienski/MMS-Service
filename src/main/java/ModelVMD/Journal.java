@@ -1,6 +1,11 @@
 package ModelVMD;
 
-public class Journal {
+public class Journal extends MMSVar{
+
+    Journal(String name){
+        setObjName(name);
+        setType(MmsObjectType.JOURNAL);
+    }
 
     void annotation(){}
 

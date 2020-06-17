@@ -1,7 +1,7 @@
 package MmsService.RequestServices.VmdServices;
 
-import ASN_1.MyBerNode;
-import MmsService.MyInterface;
+import MmsService.AbstractService;
+import ModelVMD.VMD;
 
 /*
 Rename-Request ::= SEQUENCE
@@ -29,14 +29,33 @@ Rename-Request ::= SEQUENCE
       	}
  */
 
-public class RenameRequest implements MyInterface {
+public class RenameRequest extends AbstractService {
+
+    VMD vmd;
+
+    public RenameRequest(VMD vmd){this.vmd = vmd;}
+
     @Override
-    public Object get(MyBerNode berNode) {
+    public String choice(int tag) {
+        switch (tag){
+            case 0:
+                vmd.rename();
+                return null;
+            case 1:
+                return null;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public String build(String data) {
         return null;
     }
 
     @Override
-    public MyBerNode convert() {
+    public String process(String data) {
+        String[] splitData = data.split(" ");
         return null;
     }
 }

@@ -1,0 +1,16 @@
+package ModelVMD;
+
+public enum MmsObjectType {
+    NAMED_TYPE,
+    ADDRESS,
+    NAMED_VAR,
+    NAMED_VAR_LIST,
+    JOURNAL,
+    OPERATOR_STATION,
+    SEMAPHORE,
+    EVENT_ACTION,
+    EVENT_ENROLLMENT,
+    EVENT_CONDITION,
+    DOMAIN
+
+}

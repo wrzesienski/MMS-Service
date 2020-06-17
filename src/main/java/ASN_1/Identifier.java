@@ -2,9 +2,9 @@ package ASN_1;
 
 public class Identifier {
 
-    int type;
-    int struct;
-    int tag;
+    private int type;
+    private int struct;
+    private int tag;
 
     public Identifier(){
         type = 0;

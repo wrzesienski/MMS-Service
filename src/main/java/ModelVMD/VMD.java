@@ -1,5 +1,7 @@
 package ModelVMD;
 
+import ModelVMD.ProgControlObj.Domain;
+
 import java.util.*;
 
 /**
@@ -44,11 +46,11 @@ public class VMD{
     private physStatus phys_actStatus;
     private ArrayList<capService> capList; // list of capabilities
     ArrayList<Object> progInvocList; // list of programm invocations
-    private ArrayList<Object> domainList; //list of domains
+    private ArrayList<Domain> domainList; //list of domains
 
 
-    VMD(String venName, String modName, String rev,
-        logStatus logSt, physStatus phSt, ArrayList<Object> domList){
+    public VMD(String venName, String modName, String rev,
+               logStatus logSt, physStatus phSt, ArrayList<Domain> domList){
         vendorName = venName;
         modelName = modName;
         revision = rev;
@@ -71,25 +73,62 @@ public class VMD{
         }
     }
 
-    String Identify(){return vendorName+" "+modelName+" "+revision;}
+    public String identify(){return vendorName+" "+modelName+" "+revision;}
 
-    ArrayList<capService> getCapabList(){
+    public ArrayList<capService> getCapabList(){
         return capList;
     }
 
-    String Status(){return logActStatus.toString()+" "+phys_actStatus.toString();}
+    public String status(){return logActStatus.toString()+" "+phys_actStatus.toString();}
 
-    ArrayList<Object> getNameList(){return domainList;}
+    /**
+     * method returns object in vmdSpecific field
+     * @return
+     */
 
-    void rename(){
-        Scanner in = new Scanner(System.in);
-        System.out.print("VMD_OLD_NAME: ");
-        String oldName = in.next();
-        for (Object domain: domainList){
+    // TO DO return ObjectName!!!!!!!!!!!!
+    public ArrayList<String> getNameList(){
+        ArrayList<String> vmdVarList = new ArrayList<>();
+        for (Domain domain: domainList){
+            vmdVarList.addAll(domain.getDomContentNameList());
+        }
+        return vmdVarList;
+    }
+
+    /**
+     * method returns all vars in specific domain field
+     * @param domName
+     * @return
+     */
+    // TO DO return ObjectName!!!!!!!!!!!!
+    public ArrayList<String> getNameList(String domName){
+        for(Domain domain: domainList){
+            if (domain.getObjName().equals(domName))
+                return domain.getDomContentNameList();
+        }
+        return null;
+    }
+
+    /**
+     * method returns all vars in specific type field
+     * @param type
+     * @return
+     */
+
+    // TO DO return ObjectName!!!!!!!!!!!!
+    public ArrayList<String> getNameList(MmsObjectType type){
+        ArrayList<String> list = new ArrayList<>();
+        for(Domain domain: domainList){
+            for (MMSVar var: domain.getSubObjList()){
+                if (var.getType()==type)
+                    list.add(var.getObjName());
+            }
 
         }
-        System.out.print("VMD_NEW_NAME: ");
-        String newName = in.next();
-        // TO DO
+        return list;
+    }
+
+    public void rename(String ){
+
     }
 }

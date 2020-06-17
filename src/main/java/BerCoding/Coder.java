@@ -1,29 +1,29 @@
 package BerCoding;
 
 import ASN_1.Identifier;
-import ASN_1.MyBerNode;
+import ASN_1.BerNode;
 
 import java.util.Arrays;
 
 public class Coder {
 
 
-    public static String encode(MyBerNode node){
+    public static String encode(BerNode node){
         String str = "";
         str += "0" + node.getId().getType()+node.getId().getStruct()+node.getId().getTag();
 
         str = Integer.toHexString(Integer.parseInt(str));
         str +=" " + Integer.toHexString(0) + " ";
         if (node.getId().getStruct() == 1){
-            str += encode((MyBerNode) node.getContent());
+//            str += encode((BerNode) node.getContent());
         }
         else str += Integer.toHexString(0);
         return str;
     }
 
     // data in octets
-    public static MyBerNode decode(String data){
-        MyBerNode myBerNode = new MyBerNode();
+    public static BerNode decode(String data){
+        BerNode myBerNode = new BerNode();
         Identifier id = new Identifier();
         String[] nData = data.split(" ", 3);
         int nodeId = Integer.parseInt(Integer.toBinaryString(Integer.decode("0x" + nData[0])));
@@ -37,14 +37,14 @@ public class Coder {
 
         if (id.getStruct() == 1){
             System.out.println("puk");
-            myBerNode.setContent(Coder.decode(nData[2]));
+//            myBerNode.setContent(Coder.decode(nData[2]));
         }
         else myBerNode.setContent(nData[2]);
 
         return myBerNode;
     }
 
-    static int[] getSplitId(int in){
+    public static int[] getSplitId(int in){
         String[] ss = new String[3];
         int[] id = new int[3];
         int ik = 0;

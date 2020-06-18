@@ -1,5 +1,7 @@
-package ModelVMD;
+package ModelVMD.VmdStatus;
 
+import ModelVMD.MMSVar;
+import ModelVMD.MmsObjectType;
 import ModelVMD.ProgControlObj.Domain;
 
 import java.util.*;
@@ -12,20 +14,9 @@ import java.util.*;
  */
 public class VMD{
 
-    // logic field access of potential services
-    public enum logStatus {
-        STATE_CHANGES_ALLOWED,
-        NO_STATE_CHANGES_ALLOWED,
-        LIMITED_SERVICES_SUPPORTED
-    }
 
-    // physical field of vmd condition
-    public enum physStatus {
-        OPERATIONAL,
-        PARTIALLY_OPERATIONAL,
-        INOPERABLE,
-        NEEDS_COMMISSIONING
-    }
+    private int logActStatus;
+    private int phys_actStatus;
 
     public enum capService {
         Status,
@@ -42,36 +33,35 @@ public class VMD{
     private String revision;
     // ****
 
-    private logStatus logActStatus;
-    private physStatus phys_actStatus;
+
     private ArrayList<capService> capList; // list of capabilities
     ArrayList<Object> progInvocList; // list of programm invocations
     private ArrayList<Domain> domainList; //list of domains
 
 
     public VMD(String venName, String modName, String rev,
-               logStatus logSt, physStatus phSt, ArrayList<Domain> domList){
+               int logSt, int phSt, ArrayList<Domain> domList){
         vendorName = venName;
         modelName = modName;
         revision = rev;
         logActStatus = logSt;
         phys_actStatus = phSt;
         domainList = domList;
-        fillCapList(logActStatus);
+//        fillCapList(logActStatus);
     }
 
-    private void fillCapList(logStatus ls){
-        switch (logActStatus){
-            case STATE_CHANGES_ALLOWED:
-                break;
-            case NO_STATE_CHANGES_ALLOWED:
-                break;
-            case LIMITED_SERVICES_SUPPORTED:
-                break;
-            default:
-                break;
-        }
-    }
+//    private void fillCapList(LogStatus ls){
+//        switch (logActStatus){
+//            case STATE_CHANGES_ALLOWED:
+//                break;
+//            case NO_STATE_CHANGES_ALLOWED:
+//                break;
+//            case LIMITED_SERVICES_SUPPORTED:
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     public String identify(){return vendorName+" "+modelName+" "+revision;}
 
@@ -79,7 +69,7 @@ public class VMD{
         return capList;
     }
 
-    public String status(){return logActStatus.toString()+" "+phys_actStatus.toString();}
+    public String status(){return logActStatus+", "+phys_actStatus;}
 
     /**
      * method returns object in vmdSpecific field
@@ -128,7 +118,7 @@ public class VMD{
         return list;
     }
 
-    public void rename(String ){
+//    public void rename(String ){
 
-    }
+//    }
 }

@@ -1,11 +1,8 @@
 package MmsService;
 
-import ModelVMD.VMD;
-
 public abstract class RequestService extends AbstractService{
 
-    public RequestService(VMD vmd, ServiceType serviceType){
-        setVmd(vmd);
+    public RequestService(ServiceType serviceType){
         setService(serviceType);
     }
 
@@ -30,7 +27,7 @@ public abstract class RequestService extends AbstractService{
                         flag = false;
                     }
                 }
-                return (dataa+(Pointer.getResponse(this.getClass().getSimpleName())));
+                return Pointer.getResponse(this.getClass().getSimpleName(), dataa);
             default:
                 return null;
         }

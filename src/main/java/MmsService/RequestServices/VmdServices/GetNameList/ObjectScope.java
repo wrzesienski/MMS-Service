@@ -1,7 +1,7 @@
 package MmsService.RequestServices.VmdServices.GetNameList;
 
 import MmsService.AbstractService;
-import ModelVMD.VMD;
+import res.IDK;
 
 /*
 objectScope 		[1] CHOICE
@@ -14,15 +14,13 @@ objectScope 		[1] CHOICE
 
 public class ObjectScope extends AbstractService {
 
-    public ObjectScope(VMD vmd){setVmd(vmd);}
-
     @Override
     public String choice(int tag) {
         switch (tag) {
             case 0:
-                return getVmd().getNameList().toString();
+                return IDK.vmd.getNameList().toString();
             case 1:
-                return getVmd().getNameList(getData()).toString();
+                return IDK.vmd.getNameList(getData()).toString();
             default:
                 return "Error";
         }

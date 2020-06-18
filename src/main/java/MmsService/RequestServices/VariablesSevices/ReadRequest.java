@@ -1,7 +1,6 @@
 package MmsService.RequestServices.VariablesSevices;
 
 import MmsService.RequestService;
-import ModelVMD.VMD;
 
 /*
 Read-Request ::= SEQUENCE
@@ -14,8 +13,8 @@ Read-Request ::= SEQUENCE
 public class ReadRequest extends RequestService {
 
 
-    public ReadRequest(VMD vmd){
-        super(vmd, ServiceType.SEQUENCE);
+    public ReadRequest(){
+        super(ServiceType.SEQUENCE);
     }
 
     @Override

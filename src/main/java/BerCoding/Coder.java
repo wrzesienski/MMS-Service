@@ -75,10 +75,95 @@ public class Coder {
         return (new String(arr) + bytee);
     }
 
+    static String dumbestMethod(int bytee, int a){
+        char[] data = Integer.toString(bytee).toCharArray();
+        char[] arr = new char[a - data.length];
+        Arrays.fill(arr, '0');
+        return (new String(arr) + bytee);
+    }
+
     static boolean isContaining(int[] arr, int obj){
         for(int obb: arr){
             if(obb == obj) return true;
         }
         return false;
     }
+
+    // Char -> Decimal -> Hex
+    public static String convertStringToHex(String str) {
+
+        StringBuffer hex = new StringBuffer();
+
+        // loop chars one by one
+        for (char temp : str.toCharArray()) {
+
+            // convert char to int, for char `a` decimal 97
+            int decimal = (int) temp;
+
+            // convert int to hex, for decimal 97 hex 61
+            hex.append(Integer.toHexString(decimal));
+        }
+
+        return hex.toString();
+
+    }
+
+    // Hex -> Decimal -> Char
+    public static String convertHexToString(String hex) {
+
+        StringBuilder result = new StringBuilder();
+
+        // split into two chars per loop, hex, 0A, 0B, 0C...
+        for (int i = 0; i < hex.length() - 1; i += 2) {
+
+            String tempInHex = hex.substring(i, (i + 2));
+
+            //convert hex to decimal
+            int decimal = Integer.parseInt(tempInHex, 16);
+
+            // convert the decimal to char
+            result.append((char) decimal);
+
+        }
+        return result.toString();
+
+    }
+
+    public static String getLength(String data){
+        String[] splitData = data.split(" ");
+        return Integer.toHexString(splitData.length);
+    }
+
+    public static String convertIntToHex(String data){
+        int ii = Integer.parseInt(data);
+        String a = Integer.toHexString(ii);
+        char[] aa = a.toCharArray();
+        char[] arr = new char[2 - aa.length];
+        Arrays.fill(arr, '0');
+        return (new String(arr) + a);
+    }
+
+    public static String convertHexToInt(String data){
+        return Integer.decode("0x" + data).toString();
+    }
+
+    public static String convertIntArrayToHexByProt(String data, String type){
+        String ret = "";
+//        String
+        String[] splitData = data.replaceAll("\\[|]", "").split(" ");
+        for(int i = 0; i<splitData.length; i++){
+            ret+=convertIntToHex(splitData[i]);
+            ret+=convertIntToHex(getLength(ret));
+        }
+        return ret;
+    }
+
+    public static String stickId(int id, int struct, int choice){
+        return convertIntToHex(dumbestMethod(id, 2)+struct+dumbestMethod(choice, 5));
+
+    };
+
+    public static String stickMessage(String content, String id){
+        return id + getLength(content) + content;
+    };
 }

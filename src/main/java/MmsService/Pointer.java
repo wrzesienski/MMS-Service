@@ -7,11 +7,11 @@ import MmsService.ResponceServices.VariablesServices.WriteResponse;
 import MmsService.ResponceServices.VmdServices.GetNameListResponse;
 import MmsService.ResponceServices.VmdServices.IdentifyResponse;
 import MmsService.ResponceServices.VmdServices.StatusResponse;
-import ModelVMD.VMD;
 
 public class Pointer {
 
-    public static String getResponse(String service, String data) {
+    public static String getResponse(Object obj, String data) {
+        String service = obj.getClass().getSimpleName();
         switch (service) {
             case "StatusRequest":
                 return new StatusResponse().build(data);
@@ -28,18 +28,14 @@ public class Pointer {
         }
     }
 
-    public static String getLength(String data){
-        String[] splitData = data.split(" ");
-        return Integer.toHexString(splitData.length);
-    }
-
     /**
      * static method for pointing parent relations
-     * @param service name of service
+     * @param obj service
      * @param data building data
      * @return
      */
-    public static String getParent(String service, String data){
+    public static String getParent(Object obj, String data){
+        String service = obj.getClass().getSimpleName();
         switch (service){
             case "ConfirmedRequest":
             case "ConfirmedResponse":

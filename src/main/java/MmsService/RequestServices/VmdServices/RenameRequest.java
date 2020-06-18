@@ -1,7 +1,6 @@
 package MmsService.RequestServices.VmdServices;
 
 import MmsService.AbstractService;
-import ModelVMD.VMD;
 
 /*
 Rename-Request ::= SEQUENCE
@@ -31,15 +30,11 @@ Rename-Request ::= SEQUENCE
 
 public class RenameRequest extends AbstractService {
 
-    VMD vmd;
-
-    public RenameRequest(VMD vmd){this.vmd = vmd;}
-
     @Override
     public String choice(int tag) {
         switch (tag){
             case 0:
-                vmd.rename();
+//                IDK.vmd.rename();
                 return null;
             case 1:
                 return null;

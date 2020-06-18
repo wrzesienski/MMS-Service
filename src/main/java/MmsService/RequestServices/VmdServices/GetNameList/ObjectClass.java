@@ -2,7 +2,7 @@ package MmsService.RequestServices.VmdServices.GetNameList;
 
 import MmsService.AbstractService;
 import ModelVMD.MmsObjectType;
-import ModelVMD.VMD;
+import res.IDK;
 
 /*
 		objectClass		[0] IMPLICIT INTEGER
@@ -24,14 +24,11 @@ import ModelVMD.VMD;
 
 public class ObjectClass extends AbstractService {
 
-
-    public ObjectClass(VMD vmd){setVmd(vmd);}
-
     @Override
     public String choice(int tag) {
         switch (tag) {
             case 0:
-                return getVmd().getNameList(MmsObjectType.NAMED_VAR).toString();
+                return IDK.vmd.getNameList(MmsObjectType.NAMED_VAR).toString();
             case 1:
                 return null;
             case 2:

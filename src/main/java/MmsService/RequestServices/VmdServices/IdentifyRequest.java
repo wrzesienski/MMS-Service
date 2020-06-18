@@ -16,6 +16,6 @@ public class IdentifyRequest implements ServiceInterface {
 
     @Override
     public String process(String data) {
-        return Pointer.getParent(this.getClass().getSimpleName(), data);
+        return Pointer.getParent(this, data);
     }
 }

@@ -7,7 +7,7 @@ import MmsService.RequestServices.VmdServices.GetNameListRequest;
 import MmsService.RequestServices.VmdServices.IdentifyRequest;
 import MmsService.RequestServices.VmdServices.RenameRequest;
 import MmsService.RequestServices.VmdServices.StatusRequest;
-import ModelVMD.VMD;
+import res.IDK;
 
 /*
     ConfirmedServiceRequest  ::= CHOICE
@@ -105,23 +105,19 @@ CS-Request-Detail ::= CHOICE {
 public class ConfirmedRequest extends AbstractService {
 
 
-    public ConfirmedRequest(VMD vmd) {
-        setVmd(vmd);
-    }
-
     @Override
     public String choice(int tag) {
         switch (tag) {
             case 0: // StatusRequest
-                return new StatusRequest().build(getVmd().status()); // here should be bool
+                return new StatusRequest().process(null); // here should be bool
             case 1:
-                return new GetNameListRequest(getVmd()).process(getData());
+                return new GetNameListRequest().process(getData());
             case 2: // IdentifyRequest
-                return new IdentifyRequest().process(getVmd().identify()); // here should be bool
+                return new IdentifyRequest().process(IDK.vmd.identify()); // here should be bool
             case 3:
-                return new RenameRequest(getVmd()).process(getData());
+                return new RenameRequest().process(getData());
             case 4:
-                return new ReadRequest(getVmd()).process(getData());
+                return new ReadRequest().process(getData());
             case 5:
                 return new WriteRequest().process(getData());
 //            case 71: // GetCapabilityList

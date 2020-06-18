@@ -2,12 +2,11 @@ package MmsService;
 
 import MmsService.RequestServices.ConfirmedRequest;
 import MmsService.ResponceServices.ConfirmedResponse;
-import ModelVMD.VMD;
 
 public class MmsPDU extends RequestService {
 
-    public MmsPDU(VMD vmd){
-        super(vmd, ServiceType.CHOICE);
+    public MmsPDU(){
+        super(ServiceType.CHOICE);
     }
 
 
@@ -15,9 +14,9 @@ public class MmsPDU extends RequestService {
     public String choice(int tag) {
         switch (tag){
             case 0:
-                return new ConfirmedRequest(getVmd()).process(getData());
+                return new ConfirmedRequest().process(getData());
             case 1:
-                return new ConfirmedResponse(getVmd()).process(getData());
+                return new ConfirmedResponse().process(getData());
             default: // add Error
                 return "Error";
         }    }

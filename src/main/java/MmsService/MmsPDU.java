@@ -23,7 +23,7 @@ public class MmsPDU extends RequestService {
 
     @Override
     public String build(String data) {
-        return null;
+        return data;
     }
 
 }

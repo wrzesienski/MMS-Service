@@ -1,7 +1,6 @@
 package Connect;
 
-import ASN_1.BerNode;
-import BerCoding.Coder;
+import res.IDK;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,12 +31,13 @@ public class MmsServer {
         Thread thread = new Thread(() -> {
             while (true){
                 String s = awaitRequest();
+                System.out.println(s);
                 if (s!=null){
-                    BerNode berNode = Coder.decode(s);
-//                    Object ob = MmsPDU.process(berNode);
-//                    berNode = MmsPDU.build(ob);
-                    s = Coder.encode(berNode);
-                    System.out.println(s);
+                    String ob = IDK.mmsPDU.process(s);
+                    System.out.println(ob);
+                    if(ob !=null){
+                        answer(ob);
+                    }
 
                 }
             }

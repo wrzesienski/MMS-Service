@@ -1,6 +1,5 @@
 package MmsService.RequestServices.VmdServices.GetNameList;
 
-import MmsService.AbstractService;
 import ModelVMD.MmsObjectType;
 import res.IDK;
 
@@ -22,33 +21,39 @@ import res.IDK;
 			}
  */
 
-public class ObjectClass extends AbstractService {
+public class ObjectClass extends AbstractObjectChoice {
+
+    public ObjectClass() {
+        setService(ServiceType.CHOICE);
+    }
 
     @Override
     public String choice(int tag) {
         switch (tag) {
             case 0:
-                return IDK.vmd.getNameList(MmsObjectType.NAMED_VAR).toString();
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.NAMED_VAR));
             case 1:
-                return null;
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.OPERATOR_STATION));
             case 2:
-                return null;
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.NAMED_VAR_LIST));
             case 3:
-                return null;
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.NAMED_TYPE));
             case 4:
-                return null;
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.SEMAPHORE));
             case 5:
-                return null;
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.EVENT_CONDITION));
             case 6:
                 return null;
             case 7:
                 return null;
             case 8:
-                return null;
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.JOURNAL));
             case 9:
-                return null;
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.DOMAIN));
             case 10:
-                return null;
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.NAMED_VAR));
+            case 11:
+                return dataToHex(IDK.vmd.getNameList(MmsObjectType.NAMED_VAR));
             default:
                 return null;
         }
@@ -59,9 +64,18 @@ public class ObjectClass extends AbstractService {
         return null;
     }
 
-    @Override
-    public String process(String data) {
-        return null;
-    }
-
+    /*
+            nammedVariable		(0),
+			scatteredAccess		(1),
+			namedVariableList	(2),
+			namedType		(3),
+			semaphore		(4),
+			eventCondition		(5),
+			eventAction		(6),
+			eventEnrollment		(7),
+			journal			(8),
+			domain			(9),
+			programInvocation	(10),
+			operatorStation		(11)
+     */
 }

@@ -9,9 +9,10 @@ public abstract class RequestService extends AbstractService{
     @Override
     public String process(String data){
         String[] splitData;
+        setData(data);
         switch (getService()){
             case CHOICE:
-                splitData = data.split(" ", 3);
+                splitData = getData().split(" ", 3);
                 setId(splitData[0]);
                 setData(splitData[2]);
                 return choice(getId().getTag());
@@ -22,12 +23,23 @@ public abstract class RequestService extends AbstractService{
                     splitData = data.split(" ", 3);
                     setId(splitData[0]);
                     setLength(splitData[1]);
-                    dataa+=(choice(getId().getTag()));
-                    if(getLength()==splitData[2].length()) {
+                    setData(splitData[2]);
+                    if(getLength()==splitData[2].split(" ").length) {
                         flag = false;
                     }
+                    else{
+                        String newData = "";
+                        String[] newSplit = splitData[2].split(" ", getLength()+1);
+                        for (int i = 0; i< getLength(); i++){
+                            newData+=newSplit[i]+" ";
+                        }
+                        setData(newData);
+                        data = newSplit[getLength()];
+                    }
+                    dataa+=(choice(getId().getTag()));
+
                 }
-                return Pointer.getResponse(this.getClass().getSimpleName(), dataa);
+                return Pointer.getResponse(this, dataa);
             default:
                 return null;
         }

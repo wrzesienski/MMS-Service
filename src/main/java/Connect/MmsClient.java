@@ -13,8 +13,8 @@ public class MmsClient {
 //        getRequest();
 //    }
 
-    int port = 8180;
-    Socket socket;
+    private int port = 8180;
+    private Socket socket;
 
 
     public void start(){
@@ -38,7 +38,8 @@ public class MmsClient {
             socket.connect(new InetSocketAddress(InetAddress.getLocalHost(), port), 2000);
             Scanner scanner = new Scanner(socket.getInputStream());
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
-            printWriter.println("20 00 20 00 00 00 00");
+//            printWriter.println("a0 0f 02 02 01 5d a1 09 a0 03 80 01 09 a1 02 80 00               ");
+            printWriter.println("a0 0f 02 02 01 a1 09 a0 03 80 01 09 a1 03 80 01 00               ");
             if (scanner.hasNextLine()){
                 System.out.println("тут" + scanner.nextLine());
             }

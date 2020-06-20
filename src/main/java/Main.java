@@ -1,21 +1,17 @@
+import Connect.MmsClient;
+import Connect.MmsServer;
+
 import java.io.UnsupportedEncodingException;
 
 public class Main {
 
-
-
     public static void main(String[] args) throws UnsupportedEncodingException {
 
-//               NetworkClient networkClient = new NetworkClient();
-//        NetworkServer networkServer = new NetworkServer();
-//
-//        networkServer.start();
-//        networkClient.start();
+        MmsClient mmsClient = new MmsClient();
+        MmsServer mmsServer = new MmsServer();
 
+        mmsServer.start();
+        mmsClient.start();
 
-//        System.out.println(Arrays.toString(a).replaceAll("\\[|]", ""));
-
-        int i = 001101;
-        System.out.println(Integer.toHexString(i));
     }
 }

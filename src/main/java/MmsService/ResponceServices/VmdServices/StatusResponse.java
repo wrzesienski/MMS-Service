@@ -1,7 +1,8 @@
 package MmsService.ResponceServices.VmdServices;
 
+import BerCoding.Coder;
+import MmsService.AbstractService;
 import MmsService.Pointer;
-import MmsService.ServiceInterface;
 
 /*
 Status-Response ::= SEQUENCE {
@@ -22,7 +23,7 @@ Status-Response ::= SEQUENCE {
     }
  */
 
-public class StatusResponse implements ServiceInterface {
+public class StatusResponse extends AbstractService {
 
 
     @Override
@@ -34,13 +35,28 @@ public class StatusResponse implements ServiceInterface {
     public String build(String data) {
 
         String str = "";
-        data = Coder
+        String[] splitData = Coder.convertIntArrayToHexByProt(data);
+        for(int i = 0; i<splitData.length; i++){
+            String id = Coder.stickId(0, 0, i);
+            str +=Coder.stickMessage(str, id);
+        }
 
-        return Pointer.getParent(this.getClass().getSimpleName(), data);
+        return Pointer.getParent(this.getClass().getSimpleName(), str);
     }
 
     @Override
     public String process(String data) {
-        return null;
-    }
+
+        String[] splitData;
+        splitData = data.split(" ", 4);
+        setId(splitData[0]);
+        setLength(splitData[1]);
+        setContent(splitData[2]);
+        if (getContent() == 1){
+            splitData = splitData[3].split(" ", 3);
+            setId(splitData[0]);
+            setLength(splitData[1]);
+            return choice(getId().getTag());
+        }
+        return "Error";    }
 }

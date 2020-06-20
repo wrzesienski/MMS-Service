@@ -1,6 +1,5 @@
 package MmsService.RequestServices.VmdServices.GetNameList;
 
-import MmsService.AbstractService;
 import res.IDK;
 
 /*
@@ -12,15 +11,15 @@ objectScope 		[1] CHOICE
 		},
  */
 
-public class ObjectScope extends AbstractService {
+public class ObjectScope extends AbstractObjectChoice {
 
     @Override
     public String choice(int tag) {
         switch (tag) {
             case 0:
-                return IDK.vmd.getNameList().toString();
+                return dataToHex(IDK.vmd.getNameList());
             case 1:
-                return IDK.vmd.getNameList(getData()).toString();
+                return dataToHex(IDK.vmd.getNameList(getData()));
             default:
                 return "Error";
         }
@@ -28,11 +27,6 @@ public class ObjectScope extends AbstractService {
 
     @Override
     public String build(String data) {
-        return null;
-    }
-
-    @Override
-    public String process(String data) {
         return null;
     }
 }

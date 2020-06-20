@@ -5,7 +5,7 @@ import ASN_1.BerNode;
 public abstract class AbstractService extends BerNode implements ServiceInterface {
 
     private ServiceType service;
-    private String data;
+    private String data; // in octets
 
     public enum ServiceType {
         CHOICE,

@@ -1,5 +1,6 @@
 package MmsService;
 
+import BerCoding.Coder;
 import MmsService.RequestServices.ConfirmedRequest;
 import MmsService.ResponceServices.ConfirmedResponse;
 import MmsService.ResponceServices.VariablesServices.ReadResponse;
@@ -38,7 +39,11 @@ public class Pointer {
         String service = obj.getClass().getSimpleName();
         switch (service){
             case "ConfirmedRequest":
+                // add InvokeId string
+                data = addChoice(0, data);
+                return new MmsPDU().build(data);
             case "ConfirmedResponse":
+                data = addChoice(1, data);
                 return new MmsPDU().build(data);
             // request services
             case "GetNameListRequest":
@@ -51,13 +56,25 @@ public class Pointer {
 
             // response services
             case "GetNameListResponse":
-            case "IdentifyResponse":
-            case "StatusResponse":
-            case "ReadResponse":
-            case "WriteResponse":
+                data = addChoice(1, data);
                 return new ConfirmedResponse().build(data);
-
+            case "IdentifyResponse":
+                data = addChoice(2, data);
+                return new ConfirmedResponse().build(data);
+            case "StatusResponse":
+                data = addChoice(3, data);
+                return new ConfirmedResponse().build(data);
+            case "ReadResponse":
+                data = addChoice(4, data);
+                return new ConfirmedResponse().build(data);
+            case "WriteResponse":
+                data = addChoice(5, data);
+                return new ConfirmedResponse().build(data);
         }
         return "";
+    }
+
+    private static String addChoice(int tag, String data){
+        return Coder.convertIntToHex(String.valueOf(tag)) + Coder.getLength(data) + data;
     }
 }

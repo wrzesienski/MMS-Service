@@ -101,7 +101,7 @@ public class Coder {
             int decimal = (int) temp;
 
             // convert int to hex, for decimal 97 hex 61
-            hex.append(Integer.toHexString(decimal));
+            hex.append(Integer.toHexString(decimal)).append(" ");
         }
 
         return hex.toString();
@@ -147,15 +147,8 @@ public class Coder {
         return Integer.decode("0x" + data).toString();
     }
 
-    public static String convertIntArrayToHexByProt(String data, String type){
-        String ret = "";
-//        String
-        String[] splitData = data.replaceAll("\\[|]", "").split(" ");
-        for(int i = 0; i<splitData.length; i++){
-            ret+=convertIntToHex(splitData[i]);
-            ret+=convertIntToHex(getLength(ret));
-        }
-        return ret;
+    public static String[] convertIntArrayToHexByProt(String data){
+        return data.replaceAll("\\[|]", "").split(", ");
     }
 
     public static String stickId(int id, int struct, int choice){
@@ -164,6 +157,6 @@ public class Coder {
     };
 
     public static String stickMessage(String content, String id){
-        return id + getLength(content) + content;
+        return id + " " + getLength(content) + " " + content;
     };
 }

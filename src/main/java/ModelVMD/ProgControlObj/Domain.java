@@ -46,16 +46,19 @@ public class Domain extends MMSVar {
 
 
     ArrayList<String> domContentNameList;
-    ArrayList<MmsObjectType> domContent; // данные в домене
-    ArrayList<MMSVar> subObjList; // список объектов в домене
+    private ArrayList<MmsObjectType> domContent; // данные в домене
+    private ArrayList<MMSVar> subObjList; // список объектов в домене
 
     // if IN_USE
     ArrayList<Object> progInvocRefsList;
     boolean uploadInProgress; // происходит ли подгрузка данных
 //    String additDetail;
 
-    Domain(String name){
+    public Domain(String name, ArrayList<MMSVar> list){
         setObjName(name);
+        setType(MmsObjectType.DOMAIN);
+        System.out.println(list.getClass().getSimpleName());
+        subObjList = new ArrayList<>(list);
     }
 
     public ArrayList<MmsObjectType> getDomContent() {

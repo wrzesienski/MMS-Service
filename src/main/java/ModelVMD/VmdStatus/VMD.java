@@ -37,6 +37,7 @@ public class VMD{
     private ArrayList<capService> capList; // list of capabilities
     ArrayList<Object> progInvocList; // list of programm invocations
     private ArrayList<Domain> domainList; //list of domains
+    private ArrayList<MMSVar> allList; // list of all objects
 
 
     public VMD(String venName, String modName, String rev,
@@ -47,6 +48,9 @@ public class VMD{
         logActStatus = logSt;
         phys_actStatus = phSt;
         domainList = domList;
+        allList = new ArrayList<MMSVar>();
+        allList.addAll(domList);
+        allList.addAll(domList.get(0).getSubObjList());
 //        fillCapList(logActStatus);
     }
 
@@ -77,12 +81,8 @@ public class VMD{
      */
 
     // TO DO return ObjectName!!!!!!!!!!!!
-    public ArrayList<String> getNameList(){
-        ArrayList<String> vmdVarList = new ArrayList<>();
-        for (Domain domain: domainList){
-            vmdVarList.addAll(domain.getDomContentNameList());
-        }
-        return vmdVarList;
+    public ArrayList<MMSVar> getNameList(){
+        return allList;
     }
 
     /**
@@ -90,12 +90,12 @@ public class VMD{
      * @param domName
      * @return
      */
-    // TO DO return ObjectName!!!!!!!!!!!!
-    public ArrayList<String> getNameList(String domName){
-        for(Domain domain: domainList){
-            if (domain.getObjName().equals(domName))
-                return domain.getDomContentNameList();
-        }
+    public ArrayList<MMSVar> getNameList(String domName){
+//        return (MMSVar) domainList;
+//        for(Domain domain: domainList){
+//            if (domain.getObjName().equals(domName))
+//                return domain.getSubObjList();
+//        }
         return null;
     }
 
@@ -106,12 +106,15 @@ public class VMD{
      */
 
     // TO DO return ObjectName!!!!!!!!!!!!
-    public ArrayList<String> getNameList(MmsObjectType type){
-        ArrayList<String> list = new ArrayList<>();
+    public ArrayList<MMSVar> getNameList(MmsObjectType type){
+        if (type==MmsObjectType.VMD_SPECIFIC){
+            return getNameList();
+        }
+        ArrayList<MMSVar> list = new ArrayList<>();
         for(Domain domain: domainList){
             for (MMSVar var: domain.getSubObjList()){
                 if (var.getType()==type)
-                    list.add(var.getObjName());
+                    list.add(var);
             }
 
         }

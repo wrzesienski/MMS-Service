@@ -149,6 +149,7 @@ public class ConfirmedRequest extends AbstractService {
                 splitData = splitData[3].split(" ", 3);
                 setId(splitData[0]);
                 setLength(splitData[1]);
+                setData(splitData[2]);
                 return choice(getId().getTag());
             }
             return "Error";

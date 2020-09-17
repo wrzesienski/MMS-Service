@@ -1,6 +1,6 @@
 package ModelVMD.VarAndTypeObj;
 
-import ModelVMD.MMSVar;
+import ModelVMD.MmsObject;
 import ModelVMD.MmsObjectType;
 
 /**
@@ -9,7 +9,7 @@ import ModelVMD.MmsObjectType;
  * data reporting, and allowing data to be reported in an unsolicited
  * fashion.
  */
-public class NamedVar extends MMSVar {
+public class NamedVar extends MmsObject {
 
     boolean mmsDeletable;
     NamedType type;

@@ -14,14 +14,13 @@ public class MmsClient {
 //    }
 
     private int port = 8180;
-    private Socket socket;
 
 
     public void start(){
         Thread thread = new Thread(() -> {
             while (true){
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(4000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -34,7 +33,7 @@ public class MmsClient {
 
     public void getRequest(){
         try {
-            socket = new Socket();
+            Socket socket = new Socket();
             socket.connect(new InetSocketAddress(InetAddress.getLocalHost(), port), 2000);
             Scanner scanner = new Scanner(socket.getInputStream());
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);

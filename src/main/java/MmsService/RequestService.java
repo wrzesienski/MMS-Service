@@ -1,5 +1,7 @@
 package MmsService;
 
+import IecStructure.IED;
+
 public abstract class RequestService extends AbstractService{
 
     public RequestService(ServiceType serviceType){
@@ -7,7 +9,8 @@ public abstract class RequestService extends AbstractService{
     }
 
     @Override
-    public String process(String data){
+    public String process(String data, IED ied){
+        setIed(ied);
         String[] splitData;
         setData(data);
         switch (getService()){
@@ -18,7 +21,7 @@ public abstract class RequestService extends AbstractService{
                 return choice(getId().getTag());
             case SEQUENCE:
                 boolean flag = true;
-                String dataa = "";
+                StringBuilder dataa = new StringBuilder();
                 while (flag){
                     splitData = data.split(" ", 3);
                     setId(splitData[0]);
@@ -36,10 +39,13 @@ public abstract class RequestService extends AbstractService{
                         setData(newData);
                         data = newSplit[getLength()];
                     }
-                    dataa+=(choice(getId().getTag()));
+                    dataa.append(choice(getId().getTag()));
 
                 }
-                return Pointer.getResponse(this, dataa);
+                if (!data.isEmpty()) {
+                    return BuildPointer.getResponse(this, dataa.toString());
+                }
+                return null;
             default:
                 return null;
         }

@@ -1,6 +1,6 @@
 package ModelVMD.ProgControlObj;
 
-import ModelVMD.MMSVar;
+import ModelVMD.MmsObject;
 import ModelVMD.MmsObjectType;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Domains are to be viewed as containers which represent memory areas.
  * Domain contents can be interchanged between different devices.
  */
-public class Domain extends MMSVar {
+public class Domain extends MmsObject {
 
     public enum domState {
         LOADING,
@@ -40,40 +40,31 @@ public class Domain extends MMSVar {
     }
 
     // if LOADING, COMPLETE, INCOMPLETE, READY
-    String AAA; // Assigned Application Association
-    boolean mmsDeletable; // указывает, может ли этот домен быть удален с помощью операции MMS.
-    boolean sharable; // указывает, может ли домен использоваться более чем одним вызовом программы.
+//    String AAA; // Assigned Application Association
+//    boolean sharable; // указывает, может ли домен использоваться более чем одним вызовом программы.
 
 
-    ArrayList<String> domContentNameList;
-    private ArrayList<MmsObjectType> domContent; // данные в домене
-    private ArrayList<MMSVar> subObjList; // список объектов в домене
+    private ArrayList<String> domContentNameList;
+//    private ArrayList<MmsObjectType> domContent; // данные в домене
+    private ArrayList<MmsObject> subObjList; // список объектов в домене
 
     // if IN_USE
-    ArrayList<Object> progInvocRefsList;
-    boolean uploadInProgress; // происходит ли подгрузка данных
+//    ArrayList<Object> progInvocRefsList; // список инвокаций, ссылающихся на домен
+//    boolean uploadInProgress; // происходит ли подгрузка данных
 //    String additDetail;
 
-    public Domain(String name, ArrayList<MMSVar> list){
+    public Domain(String name, ArrayList<MmsObject> list){
         setObjName(name);
         setType(MmsObjectType.DOMAIN);
         System.out.println(list.getClass().getSimpleName());
         subObjList = new ArrayList<>(list);
     }
 
-    public ArrayList<MmsObjectType> getDomContent() {
-        return domContent;
-    }
-
-    public void setDomContent(ArrayList<MmsObjectType> domContent) {
-        this.domContent = domContent;
-    }
-
-    public ArrayList<MMSVar> getSubObjList() {
+    public ArrayList<MmsObject> getSubObjList() {
         return subObjList;
     }
 
-    public void setSubObjList(ArrayList<MMSVar> subObjList) {
+    public void setSubObjList(ArrayList<MmsObject> subObjList) {
         this.subObjList = subObjList;
     }
 

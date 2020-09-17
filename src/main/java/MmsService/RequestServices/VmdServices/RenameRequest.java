@@ -1,6 +1,7 @@
 package MmsService.RequestServices.VmdServices;
 
 import MmsService.AbstractService;
+import res.IDK;
 
 /*
 Rename-Request ::= SEQUENCE
@@ -50,7 +51,19 @@ public class RenameRequest extends AbstractService {
 
     @Override
     public String process(String data) {
-        String[] splitData = data.split(" ");
+        String[] splitData;
+        boolean flag = true;
+        String dataa = "";
+        while (flag){
+
+            splitData = data.split(" ", 3);
+            if(1==splitData[2].length()) {
+                flag = false;
+            }
+            data = splitData[2].split(" ", 2)[1];
+            dataa+= splitData[2].split(" ", 2)[0] + " ";
+        }
+        IDK.vmd.rename(dataa);
         return null;
     }
 }

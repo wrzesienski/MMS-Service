@@ -1,6 +1,6 @@
 package ModelVMD;
 
-public class Journal extends MMSVar{
+public class Journal extends MmsObject {
 
     Journal(String name){
         setObjName(name);

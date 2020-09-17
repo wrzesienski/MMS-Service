@@ -1,13 +1,12 @@
 package MmsService.ResponceServices;
 
 import ASN_1.BerNode;
-import MmsService.Pointer;
+import MmsService.BuildPointer;
 import MmsService.ResponceServices.VariablesServices.ReadResponse;
 import MmsService.ResponceServices.VmdServices.GetNameListResponse;
 import MmsService.ResponceServices.VmdServices.IdentifyResponse;
 import MmsService.ResponceServices.VmdServices.StatusResponse;
 import MmsService.ResponseService;
-import res.IDK;
 
 /*
 ConfirmedServiceResponse  ::= CHOICE
@@ -107,7 +106,7 @@ public class ConfirmedResponse extends ResponseService {
             case 1:
                 return new GetNameListResponse().process(getData());
             case 2: // IdentifyRequest
-                return new IdentifyResponse().process(IDK.vmd.identify()); // here should be bool
+                return new IdentifyResponse().process(getData()); // here should be bool
             case 3:
                 return null;
             case 4:
@@ -123,7 +122,7 @@ public class ConfirmedResponse extends ResponseService {
 
     @Override
     public String build(String data) {
-        return Pointer.getParent(this, data);
+        return BuildPointer.getParent(this, data);
     }
 
 }

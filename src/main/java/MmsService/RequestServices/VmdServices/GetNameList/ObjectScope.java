@@ -1,5 +1,6 @@
 package MmsService.RequestServices.VmdServices.GetNameList;
 
+import BerCoding.CodeConverter;
 import res.IDK;
 
 /*
@@ -17,9 +18,9 @@ public class ObjectScope extends AbstractObjectChoice {
     public String choice(int tag) {
         switch (tag) {
             case 0:
-                return dataToHex(IDK.vmd.getNameList());
+                return CodeConverter.dataToHex(IDK.vmd.getNameList());
             case 1:
-                return dataToHex(IDK.vmd.getNameList(getData()));
+                return CodeConverter.dataToHex(IDK.vmd.getNameList(getData()));
             default:
                 return "Error";
         }
@@ -27,6 +28,6 @@ public class ObjectScope extends AbstractObjectChoice {
 
     @Override
     public String build(String data) {
-        return null;
+        return CodeConverter.stickMessage(data, CodeConverter.stickId(0,0, 1));
     }
 }

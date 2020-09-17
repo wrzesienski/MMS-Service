@@ -1,9 +1,9 @@
 package ModelVMD.VarAndTypeObj;
 
-import ModelVMD.MMSVar;
+import ModelVMD.MmsObject;
 import ModelVMD.MmsObjectType;
 
-public class Address extends MMSVar{
+public class Address extends MmsObject {
 
     public Address() {
 
@@ -11,6 +11,6 @@ public class Address extends MMSVar{
 
     public Address(String name){
         setObjName(name);
-        setType(MmsObjectType.ADDRESS);
+        setType(MmsObjectType.SCATTERED_ACCESS);
     }
 }

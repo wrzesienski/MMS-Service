@@ -1,9 +1,20 @@
 package MmsService;
 
 import ASN_1.BerNode;
+import IecStructure.IED;
+
 
 public abstract class AbstractService extends BerNode implements ServiceInterface {
 
+    public IED getIed() {
+        return ied;
+    }
+
+    public void setIed(IED ied) {
+        this.ied = ied;
+    }
+
+    private IED ied;
     private ServiceType service;
     private String data; // in octets
 

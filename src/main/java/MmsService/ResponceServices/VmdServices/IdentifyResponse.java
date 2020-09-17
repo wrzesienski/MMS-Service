@@ -1,6 +1,6 @@
 package MmsService.ResponceServices.VmdServices;
 
-import MmsService.Pointer;
+import MmsService.BuildPointer;
 import MmsService.ServiceInterface;
 
 public class IdentifyResponse implements ServiceInterface {
@@ -11,7 +11,7 @@ public class IdentifyResponse implements ServiceInterface {
 
     @Override
     public String build(String data) {
-        return Pointer.getParent(this.getClass().getSimpleName(), data);
+        return BuildPointer.getParent(this, data);
     }
 
     @Override

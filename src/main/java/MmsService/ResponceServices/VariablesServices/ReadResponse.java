@@ -1,6 +1,6 @@
 package MmsService.ResponceServices.VariablesServices;
 
-import MmsService.Pointer;
+import MmsService.BuildPointer;
 import MmsService.ServiceInterface;
 
 public class ReadResponse implements ServiceInterface {
@@ -11,7 +11,7 @@ public class ReadResponse implements ServiceInterface {
 
     @Override
     public String build(String data) {
-        return Pointer.getParent(this.getClass().getSimpleName(), data);
+        return BuildPointer.getParent(this.getClass().getSimpleName(), data);
     }
 
     @Override

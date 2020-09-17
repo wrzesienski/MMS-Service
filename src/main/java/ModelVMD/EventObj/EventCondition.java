@@ -1,40 +1,53 @@
 package ModelVMD.EventObj;
 
-import ModelVMD.MMSVar;
+import ModelVMD.MmsObject;
 import ModelVMD.MmsObjectType;
+import ModelVMD.VarAndTypeObj.MmsVar;
 
-public class EventCondition extends MMSVar {
+public class EventCondition extends MmsObject {
+
+    EventCondition(){}
 
     EventCondition(String name){
         setObjName(name);
         setType(MmsObjectType.EVENT_CONDITION);
     }
 
+    EventCondition(MmsVar monitVar, boolean deletable){
+        monitoredVar = monitVar;
+
+    }
+
     enum eventConStatus{
         IDLE, ACTIVE, DISABLED
     }
 
-    boolean mmsDeletable;
     eventConStatus state = eventConStatus.IDLE;
     boolean priority;
     boolean severity;
-    Object monitoredVar;
-    boolean enabled;
+
+    private MmsVar monitoredVar;
+    private boolean enabled = false;
     boolean alarmSumRep;
     boolean evaluationInterval;
     long timeLastActive;
     long timeLastIdle;
 
-    EventCondition(Object monitVar, boolean deletable){
-        monitoredVar = monitVar;
-        mmsDeletable = deletable;
-
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    void defineEventCon(){};
-    void deleteEventCon(){};
-    void getEventConAttributes(){};
-    void reportEventConStatus(){};
-    void AlterEventConMonitoring(){};
-    void getAlarmSummary(){};
+    public void checkTrip(){
+        if(true){
+            enabled = true;
+        }
+    }
+
+    public MmsVar getMonitoredVar() {
+        return monitoredVar;
+    }
+
+    public void setMonitoredVar(MmsVar monitoredVar) {
+        this.monitoredVar = monitoredVar;
+    }
 }

@@ -1,10 +1,15 @@
 package MmsService;
 
+import IecStructure.IED;
+
 public abstract class ResponseService extends AbstractService {
 
+
     @Override
-    public String process(String data){
+    public String process(String data, IED ied){
+        setIed(ied);
         String[] splitData;
+        setData(data);
         switch (getService()){
             case CHOICE:
                 splitData = data.split(" ", 3);
@@ -18,6 +23,7 @@ public abstract class ResponseService extends AbstractService {
                     splitData = data.split(" ", 3);
                     setId(splitData[0]);
                     setLength(splitData[1]);
+                    setData(splitData[2]);
                     dataa+=(choice(getId().getTag()));
                     if(getLength()==splitData[2].length()) {
                         flag = false;

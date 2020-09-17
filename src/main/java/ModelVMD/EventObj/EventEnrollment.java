@@ -1,9 +1,9 @@
 package ModelVMD.EventObj;
 
-import ModelVMD.MMSVar;
+import ModelVMD.MmsObject;
 import ModelVMD.MmsObjectType;
 
-public class EventEnrollment extends MMSVar {
+public class EventEnrollment extends MmsObject {
 
     EventEnrollment(String name){
         setObjName(name);
@@ -29,10 +29,11 @@ public class EventEnrollment extends MMSVar {
     }
 
     Transition transition;
-    boolean mmsDeletable;
-    EventCondition eventCondition;
+
+    private EventAction eventAction;
+    private EventCondition eventCondition;
+
     boolean notificLost;
-    EventAction eventAction;
     boolean clientApp;
     long duration;
     EnrollmentState actState;
@@ -40,11 +41,23 @@ public class EventEnrollment extends MMSVar {
     long timeActAck;
     long timeIdleAck;
 
+    public void scan(){
+        if(eventCondition.isEnabled()){
+            eventAction.makeAction(eventCondition.getMonitoredVar().getVarMean().toString());
+        }
+    }
 
-    void defineEventEnroll(){};
-    void deleteEventEnroll(){};
-    void getEventEnroll(){};
-    void reportEventEnroll(){};
-    void alterEventEnroll(){};
+    public EventAction getEventAction() {
+        return eventAction;
+    }
+    public void setEventAction(EventAction eventAction) {
+        this.eventAction = eventAction;
+    }
 
+    public EventCondition getEventCondition() {
+        return eventCondition;
+    }
+    public void setEventCondition(EventCondition eventCondition) {
+        this.eventCondition = eventCondition;
+    }
 }

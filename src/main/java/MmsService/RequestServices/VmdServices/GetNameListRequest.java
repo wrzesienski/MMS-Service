@@ -1,6 +1,6 @@
 package MmsService.RequestServices.VmdServices;
 
-import MmsService.Pointer;
+import MmsService.BuildPointer;
 import MmsService.RequestService;
 import MmsService.RequestServices.VmdServices.GetNameList.ObjectClass;
 import MmsService.RequestServices.VmdServices.GetNameList.ObjectScope;
@@ -34,6 +34,6 @@ public class GetNameListRequest extends RequestService {
 
     @Override
     public String build(String data) {
-        return Pointer.getParent(this, data);
+        return BuildPointer.getParent(this, data);
     }
 }

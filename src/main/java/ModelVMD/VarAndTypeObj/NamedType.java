@@ -1,9 +1,9 @@
 package ModelVMD.VarAndTypeObj;
 
-import ModelVMD.MMSVar;
+import ModelVMD.MmsObject;
 import ModelVMD.MmsObjectType;
 
-public class NamedType extends MMSVar {
+public class NamedType extends MmsObject {
 
     NamedType(String name){
         setObjName(name);

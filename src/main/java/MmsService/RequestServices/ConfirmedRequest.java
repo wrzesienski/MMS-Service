@@ -1,13 +1,12 @@
 package MmsService.RequestServices;
 
+import IecStructure.IED;
 import MmsService.AbstractService;
 import MmsService.RequestServices.VariablesSevices.ReadRequest;
 import MmsService.RequestServices.VariablesSevices.WriteRequest;
 import MmsService.RequestServices.VmdServices.GetNameListRequest;
-import MmsService.RequestServices.VmdServices.IdentifyRequest;
 import MmsService.RequestServices.VmdServices.RenameRequest;
 import MmsService.RequestServices.VmdServices.StatusRequest;
-import res.IDK;
 
 /*
     ConfirmedServiceRequest  ::= CHOICE
@@ -111,13 +110,13 @@ public class ConfirmedRequest extends AbstractService {
             case 0: // StatusRequest
                 return new StatusRequest().process(null); // here should be bool
             case 1:
-                return new GetNameListRequest().process(getData());
+                return new GetNameListRequest().process(getData(), getIed());
             case 2: // IdentifyRequest
-                return new IdentifyRequest().process(IDK.vmd.identify()); // here should be bool
+//                return new IdentifyRequest().process(IDK.vmd.identify()); // here should be bool
             case 3:
                 return new RenameRequest().process(getData());
             case 4:
-                return new ReadRequest().process(getData());
+                return new ReadRequest().process(getData(), getIed());
             case 5:
                 return new WriteRequest().process(getData());
 //            case 71: // GetCapabilityList
@@ -138,8 +137,8 @@ public class ConfirmedRequest extends AbstractService {
 //    }
 
     @Override
-    public String process(String data) {
-
+    public String process(String data, IED ied) {
+        setIed(ied);
         String[] splitData;
             splitData = data.split(" ", 4);
             setId(splitData[0]);

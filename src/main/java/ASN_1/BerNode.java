@@ -1,6 +1,6 @@
 package ASN_1;
 
-import BerCoding.Coder;
+import BerCoding.CodeConverter;
 
 public class BerNode {
 
@@ -29,7 +29,7 @@ public class BerNode {
      */
     public void setId(String IdData){
         int nodeId = Integer.parseInt(Integer.toBinaryString(Integer.decode("0x" + IdData)));
-        int[] iden = Coder.getSplitId(nodeId);
+        int[] iden = CodeConverter.getSplitId(nodeId);
         id.setType(iden[0]);
         id.setStruct(iden[1]);
         id.setTag(iden[2]);

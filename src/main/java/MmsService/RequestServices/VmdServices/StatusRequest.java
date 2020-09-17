@@ -1,7 +1,7 @@
 package MmsService.RequestServices.VmdServices;
 
-import BerCoding.Coder;
-import MmsService.Pointer;
+import BerCoding.CodeConverter;
+import MmsService.BuildPointer;
 import MmsService.ServiceInterface;
 import res.IDK;
 
@@ -15,17 +15,17 @@ public class StatusRequest implements ServiceInterface {
     @Override
     public String build(String data) {
         String str = "";
-        String[] splitData = Coder.convertIntArrayToHexByProt(data);
+        String[] splitData = CodeConverter.convertIntArrayToHexByProt(data);
         for(int i = 0; i<splitData.length; i++){
-            String id = Coder.stickId(0, 0, i);
-            str +=Coder.stickMessage(str, id);
+            String id = CodeConverter.stickId(0, 0, i);
+            str += CodeConverter.stickMessage(str, id);
         }
 
-        return Pointer.getParent(this.getClass().getSimpleName(), str);     }
+        return BuildPointer.getParent(this.getClass().getSimpleName(), str);     }
 
     @Override
     public String process(String data) {
-        data = IDK.vmd.status();
-        return Pointer.getResponse(this, data);
+        data = CodeConverter.s_dataToHex(IDK.vmd.status());
+        return BuildPointer.getResponse(this, data);
     }
 }

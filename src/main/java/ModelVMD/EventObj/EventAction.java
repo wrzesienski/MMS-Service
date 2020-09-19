@@ -1,6 +1,6 @@
 package ModelVMD.EventObj;
 
-import MmsService.BuildPointer;
+import MmsServices.BuildPointer;
 import ModelVMD.MmsObject;
 import ModelVMD.MmsObjectType;
 

@@ -20,8 +20,8 @@ package ModelVMD;
  */
 
 public enum MmsObjectType {
-    NAMED_VAR(0),
-    SCATTERED_ACCESS(1),
+    NAMED_VAR(20),
+    SCATTERED_ACCESS(21),
     NAMED_VAR_LIST(2),
     NAMED_TYPE(3),
     SEMAPHORE(4),
@@ -31,7 +31,9 @@ public enum MmsObjectType {
     JOURNAL(8),
     DOMAIN(9),
     OPERATOR_STATION(10),
-    VMD_SPECIFIC(11);
+    VMD_SPECIFIC(11),
+    LOGICAL_DEVICE(0),
+    LOGICAL_NODE(1);
 
     private int code;
     MmsObjectType(int code){

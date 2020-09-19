@@ -1,17 +1,19 @@
 package TerminalModel.PDIS;
 
 import IecStructure.LogicalNode;
+import IecStructure.SclClass;
+import TerminalModel.NodeConnector;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 
 /** Класс считывания, расчета и визуализации данных
         */
-public class ProcessDataManager extends MmsConnector {
+public class ProcessDataManager extends NodeConnector {
 
     private File comtrCfg, comtrDat; // конфигурационный/файл данных
     private double[] k1, k2; // масштабные коэффициенты
@@ -21,9 +23,11 @@ public class ProcessDataManager extends MmsConnector {
     private BlockManager bm = new BlockManager();
     private RelayLogicManager relayManager = new RelayLogicManager();
 
-    public ProcessDataManager(LogicalNode node, List<String> meanList) {
+    public ProcessDataManager(LogicalNode node, ArrayList<String> meanList) {
+        super(node, meanList);
+        setType(SclClass.LN_BODY);
         // внимательно с путем файла
-        String path = "C:\\Users\\Alexander\\JavaProjects\\MMS-Service\\src\\main\\java\\TerminalModel\\data\\";
+        String path = "C:\\Users\\Alexander\\JavaProjects\\MMS-Service\\src\\main\\java\\TerminalModel\\PDIS\\data\\";
 
         /*
         1ph: KZ4 = KZ7
@@ -37,10 +41,6 @@ public class ProcessDataManager extends MmsConnector {
         relayManager.setDigitSignal(digitSignal);
         im.setBlockManager(bm);
         relayManager.setBlockManager(bm);
-
-        setLogicalNode(node);
-        node.setMeasruments(takeCareOfMms(meanList));
-        System.out.println(node.getMeasruments().equals(getMeasures()));
 
         String comtrName = "KZ1";
         String cfgName = path + comtrName + ".cfg"; // имя конфигурационного файла
@@ -71,6 +71,11 @@ public class ProcessDataManager extends MmsConnector {
         thread.start();
 
 
+
+    }
+
+    @Override
+    public void stop() {
 
     }
 
@@ -144,12 +149,12 @@ public class ProcessDataManager extends MmsConnector {
                 if (relayManager.process()) {
                     System.out.println(digitSignal.getTime());
                     System.out.println("Защита сработала");
-                    setNewMeas();
+                    rebuildMeasures();
                     System.out.println("Rel: " + getMeasures().get("Str"));
                     break outer; // при срабатывании защиты происходит выход
                 }
 
-                setNewMeas();
+                rebuildMeasures();
 
 
             }
@@ -157,7 +162,7 @@ public class ProcessDataManager extends MmsConnector {
     }
 
     @Override
-    public void setNewMeas() {
+    public void rebuildMeasures() {
         Object[] list = getMeasures().keySet().toArray();
         for (int i = 0; i < list.length; i++) {
             switch ((String)list[i]) {

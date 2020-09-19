@@ -1,16 +1,20 @@
 package TerminalModel.SIMG;
 
 import IecStructure.LogicalNode;
-import TerminalModel.PDIS.MmsConnector;
+import IecStructure.SclClass;
+import TerminalModel.NodeConnector;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class HF_Measurement extends MmsConnector {
+/**
+ * HF6 protection service
+ */
+public class HF_Measurement extends NodeConnector {
 
-    private double temp;
-    private double den;
-    private double pres;
+    private double temp; // температура
+    private double den; // плотность
+    private double pres; // давление
     // уставки по качествам
     private double tempTrip;
     private double denTrip;
@@ -20,8 +24,8 @@ public class HF_Measurement extends MmsConnector {
     private boolean presAlm;
 
     public HF_Measurement(LogicalNode logicalNode, ArrayList<String> meas){
-        logicalNode.setMeasruments(takeCareOfMms(meas));
-        setLogicalNode(logicalNode);
+        super(logicalNode, meas);
+        setType(SclClass.LN_BODY);
     }
 
     @Override
@@ -46,6 +50,11 @@ public class HF_Measurement extends MmsConnector {
         thread.start();
     }
 
+    @Override
+    public void stop() {
+
+    }
+
     public Object choice (String str){
         switch (str){
             case "Temp":
@@ -66,7 +75,7 @@ public class HF_Measurement extends MmsConnector {
     }
 
     @Override
-    public void setNewMeas() {
+    public void rebuildMeasures() {
         String[] list = (String[]) getMeasures().keySet().toArray();
         for (int i = 0; i <= list.length; i++) {
             switch (list[i]) {

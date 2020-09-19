@@ -1,21 +1,24 @@
 package TerminalModel.CSWI;
 
 import IecStructure.LogicalNode;
-import TerminalModel.PDIS.MmsConnector;
+import IecStructure.SclClass;
+import TerminalModel.NodeConnector;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SwitchResearcher extends MmsConnector {
+/**
+ *  Switch manager service
+ */
+public class SwitchResearcher extends NodeConnector {
 
     private boolean pos = true;
     private boolean orderOn = false;
     private boolean orderOff = false;
 
     public SwitchResearcher(LogicalNode logicalNode, ArrayList<String> meas){
-        logicalNode.setMeasruments(takeCareOfMms(meas));
-        setLogicalNode(logicalNode);
-
+        super(logicalNode, meas);
+        setType(SclClass.LN_BODY);
     }
 
     @Override
@@ -29,7 +32,12 @@ public class SwitchResearcher extends MmsConnector {
     }
 
     @Override
-    public void setNewMeas() {
+    public void stop() {
+
+    }
+
+    @Override
+    public void rebuildMeasures() {
         String[] list = (String[]) getMeasures().keySet().toArray();
         for (int i = 0; i <= list.length; i++) {
             switch (list[i]) {

@@ -1,6 +1,10 @@
 package MmsServices.RequestServices;
 
+import CodeProcessing.CodeTypeConverter;
 import MmsServices.HighStructServiceBody;
+import TerminalModel.NodeConnector;
+
+import java.util.ArrayList;
 
 /*
 Read-Request ::= SEQUENCE
@@ -28,26 +32,22 @@ public class GetDataValuesRequest extends HighStructServiceBody {
         switch (tag){
             case 0:
 //                return CodeConverter.dataToHex(ooo());
+            case 1:
+                return CodeTypeConverter.s_dataToHex(getValues(tag));
             default:
                 return "2";
         }
     }
 
-//    public String ooo(){
-//        // CAUSE RETURN VOID MEAN
-//        String ret = "";
-//        String[] str = getData().replaceAll(" ", "").split("$");
-//        for(LogicalDevice ld: getIed().getLogicalDevices()){
-//            if(ld.getRootName().equals(str[0])){
-//                for(LogicalNode ln: ld.getLogicalNodeList()){
-//                    if (ln.getRootName().equals(str[1])){
-//                        ret+=ln.getMeasruments().get(str[2]).toString();
-//                    }
-//                }
-//            }
-//        }
-//        return ret;
-//    }
+    public ArrayList<String> getValues(int tag){
+        NodeConnector node = (NodeConnector) getIed().getChild(getData());
+        ArrayList<String> ob = new ArrayList<>();
+        for (Object str: node.getMeasures().entrySet()){
+            ob.add(String.valueOf(str));
+        }
+        ob.add(String.valueOf(tag));
+        return ob;
+    }
 
     @Override
     public String build(String data) {

@@ -49,7 +49,7 @@ public class TIED
 {
 
     @XmlElement(name = "Services")
-    protected TServices services;
+    protected TNewServices services;
     @XmlElement(name = "AccessPoint", required = true)
     protected List<TAccessPoint> accessPoint;
     @XmlAttribute(name = "type")
@@ -73,7 +73,7 @@ public class TIED
      *     {@link TServices }
      *     
      */
-    public TServices getServices() {
+    public TNewServices getServices() {
         return services;
     }
 
@@ -85,7 +85,7 @@ public class TIED
      *     {@link TServices }
      *     
      */
-    public void setServices(TServices value) {
+    public void setServices(TNewServices value) {
         this.services = value;
     }
 

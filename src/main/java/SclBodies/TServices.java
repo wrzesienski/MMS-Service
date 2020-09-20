@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 
 
 /**
@@ -124,6 +125,19 @@ public class TServices {
     protected TConfLNs confLNs;
     @XmlElement(name = "ClientServices")
     protected TClientServices clientServices;
+
+    public ArrayList<TServiceYesNo> getAll(){
+        ArrayList<TServiceYesNo> services = new ArrayList<>();
+        services.add(getGetDataSetValue());
+        services.add(getSetDataSetValue());
+        services.add(getReadWrite());
+        services.add(getGetDirectory());
+        services.add(getReadWrite());
+        services.add(getReadWrite());
+        services.add(getReadWrite());
+        return services;
+
+    }
 
     /**
      * Gets the value of the dynAssociation property.

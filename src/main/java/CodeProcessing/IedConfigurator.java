@@ -1,9 +1,9 @@
 package CodeProcessing;
 
-import IecStructure.IED;
-import IecStructure.LogicalDevice;
-import IecStructure.LogicalNode;
-import IecStructure.RootClass;
+import IedStructure.IED;
+import IedStructure.LogicalDevice;
+import IedStructure.LogicalNode;
+import IedStructure.RootClass;
 import SclBodies.*;
 import TerminalModel.CSWI.SwitchResearcher;
 import TerminalModel.PDIS.ProcessDataManager;
@@ -18,10 +18,19 @@ import java.util.List;
  */
 public class IedConfigurator {
 
-    // метод конфигурации IED
-    public static void configIed(IED ied, String sclFile){
-        SCL scl = ConfigWorker.unMarshalAny(SCL.class, sclFile);
+    /**
+     * конфигурируем IED
+     * @param ied объект ied
+     */
+    public static void configIed(IED ied){
+        SCL scl = ConfigWorker.unMarshalAny(SCL.class, ied.getSclLink());
         TIED tied = scl.getIED().get(0);
+        ArrayList<TS> services = tied.getServices().getServices();
+        for (TS service: services){
+                // костыль: добавляем названия открытых пользователю сервисов
+                ied.addIedService(service.getSs());
+
+        }
         ied.addChilds(getLDList(tied.getAccessPoint().get(0).getServer().getLDevice(), ied));
 
     }
@@ -32,16 +41,19 @@ public class IedConfigurator {
     }
 
     public static void configLN(LogicalNode logicalNode, TLN tln){
+        logicalNode.setRootName(tln.getLnType());
         logicalNode.addChild(setNode(logicalNode, tln.getLnClass().get(0), getValues(tln)));
         logicalNode.addChilds(configReport(logicalNode, tln.getReportControl()));
     }
 
     public static ArrayList<RootClass> configReport(LogicalNode logicalNode, List<TReportControl> treportControls){
         ArrayList<RootClass> reportControls = new ArrayList<>();
+        int tag = 1;
         for(TReportControl tReportControl: treportControls){
             ReportControl reportControl = new ReportControl(logicalNode, tReportControl.getDatSet());
-            reportControl.setLinks(logicalNode.getRootName());
+            reportControl.setLinks();
             reportControls.add(reportControl);
+            tag++;
         }
         return reportControls;
     }
@@ -62,10 +74,12 @@ public class IedConfigurator {
 
     public static ArrayList<RootClass> getLDList(List<TLDevice> tlDevices, IED ied){
         ArrayList<RootClass> logicalDevices = new ArrayList<>();
+        int tag = 1;
         for (TLDevice tlDevice: tlDevices){
             LogicalDevice logicalDevice = new LogicalDevice(ied);
             configLD(logicalDevice, tlDevice);
             logicalDevices.add(logicalDevice);
+            tag++;
         }
 
         return logicalDevices;
@@ -73,11 +87,13 @@ public class IedConfigurator {
 
     public static ArrayList<RootClass> getLNList(List<TLN> tlnList, LogicalDevice logicalDevice){
         ArrayList<RootClass> logicalNodes = new ArrayList<>();
+        int tag = 1;
         for (TLN tln: tlnList){
             LogicalNode logicalNode = new LogicalNode(logicalDevice);
             logicalNode.setRootName(tln.getLnClass().get(0));
             configLN(logicalNode, tln);
             logicalNodes.add(logicalNode);
+            tag++;
         }
         return logicalNodes;
     }

@@ -1,7 +1,7 @@
 package TerminalModel.PDIS;
 
-import IecStructure.LogicalNode;
-import IecStructure.SclClass;
+import IedStructure.LogicalNode;
+import IedStructure.SclClass;
 import TerminalModel.NodeConnector;
 
 import java.io.BufferedReader;
@@ -99,10 +99,8 @@ public class ProcessDataManager extends NodeConnector {
             if (lineNumber == 2) {
                 flagNumber = lineNumber;
                 numberData = Integer.parseInt(line.split(",")[1].replaceAll("A", ""));
-                System.out.println("Number Signals: " + numberData);
                 k1 = new double[numberData];
                 k2 = new double[numberData];
-                System.out.println("Number Data: " + numberData);
 
             } else if (lineNumber > 2 && lineNumber <= numberData + flagNumber) {
 
@@ -143,14 +141,10 @@ public class ProcessDataManager extends NodeConnector {
                 im.setImpedance(U, I, phase);
 
 
-                System.out.println("Rel: " + getMeasures().get("Str"));
-
-
                 if (relayManager.process()) {
                     System.out.println(digitSignal.getTime());
                     System.out.println("Защита сработала");
                     rebuildMeasures();
-                    System.out.println("Rel: " + getMeasures().get("Str"));
                     break outer; // при срабатывании защиты происходит выход
                 }
 

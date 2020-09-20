@@ -1,6 +1,6 @@
 package MmsServices.RequestServices;
 
-import MmsServices.BuildPointer;
+import MmsServices.ServiceConnector;
 import MmsServices.HighStructServiceBody;
 
 /*
@@ -36,6 +36,6 @@ public class IdentifyRequest extends HighStructServiceBody {
 
     @Override
     public String build(String data) {
-        return BuildPointer.getParent(this, data);
+        return ServiceConnector.getParent(this, data);
     }
 }

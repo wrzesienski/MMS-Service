@@ -1,8 +1,8 @@
 package MmsServices.RequestServices;
 
 import CodeProcessing.CodeTypeConverter;
-import IecStructure.IED;
-import MmsServices.BuildPointer;
+import IedStructure.IED;
+import MmsServices.ServiceConnector;
 import MmsServices.ServiceInterface;
 
 public class StatusRequest implements ServiceInterface {
@@ -21,11 +21,11 @@ public class StatusRequest implements ServiceInterface {
             str += CodeTypeConverter.stickMessage(str, id);
         }
 
-        return BuildPointer.getParent(this.getClass().getSimpleName(), str);     }
+        return ServiceConnector.getParent(this.getClass().getSimpleName(), str);     }
 
     @Override
     public String process(String data, IED ied) {
 //        data = CodeTypeConverter.s_dataToHex(IDK.vmd.status());
-        return BuildPointer.getResponse(this, data);
+        return ServiceConnector.getResponse(this, data);
     }
 }

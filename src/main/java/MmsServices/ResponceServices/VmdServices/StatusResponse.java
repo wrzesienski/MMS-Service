@@ -1,9 +1,9 @@
 package MmsServices.ResponceServices.VmdServices;
 
 import CodeProcessing.CodeTypeConverter;
-import IecStructure.IED;
+import IedStructure.IED;
 import MmsServices.AbstractService;
-import MmsServices.BuildPointer;
+import MmsServices.ServiceConnector;
 
 /*
 Status-Response ::= SEQUENCE {
@@ -42,7 +42,7 @@ public class StatusResponse extends AbstractService {
             str += CodeTypeConverter.stickMessage(str, id);
         }
 
-        return BuildPointer.getParent(this.getClass().getSimpleName(), str);
+        return ServiceConnector.getParent(this.getClass().getSimpleName(), str);
     }
 
     @Override

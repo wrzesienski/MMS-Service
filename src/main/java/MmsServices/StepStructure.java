@@ -37,7 +37,7 @@ public abstract class StepStructure {
      */
     public void setId(String IdData){
         int nodeId = Integer.parseInt(Integer.toBinaryString(Integer.decode("0x" + IdData)));
-        int[] iden = CodeTypeConverter.getSplitId(nodeId);
+        int[] iden = CodeTypeConverter.splitId(nodeId);
         id.setType(iden[0]);
         id.setStruct(iden[1]);
         id.setTag(iden[2]);

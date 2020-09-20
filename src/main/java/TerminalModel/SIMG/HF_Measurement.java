@@ -1,7 +1,7 @@
 package TerminalModel.SIMG;
 
-import IecStructure.LogicalNode;
-import IecStructure.SclClass;
+import IedStructure.LogicalNode;
+import IedStructure.SclClass;
 import TerminalModel.NodeConnector;
 
 import java.util.ArrayList;

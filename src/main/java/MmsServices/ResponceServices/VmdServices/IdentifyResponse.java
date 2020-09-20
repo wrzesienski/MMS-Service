@@ -1,7 +1,7 @@
 package MmsServices.ResponceServices.VmdServices;
 
-import IecStructure.IED;
-import MmsServices.BuildPointer;
+import IedStructure.IED;
+import MmsServices.ServiceConnector;
 import MmsServices.ServiceInterface;
 
 public class IdentifyResponse implements ServiceInterface {
@@ -12,7 +12,7 @@ public class IdentifyResponse implements ServiceInterface {
 
     @Override
     public String build(String data) {
-        return BuildPointer.getParent(this, data);
+        return ServiceConnector.getParent(this, data);
     }
 
     @Override

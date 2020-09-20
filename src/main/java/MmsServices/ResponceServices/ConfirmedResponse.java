@@ -1,6 +1,6 @@
 package MmsServices.ResponceServices;
 
-import MmsServices.BuildPointer;
+import MmsServices.ServiceConnector;
 import MmsServices.HighStructServiceBody;
 import MmsServices.ResponceServices.VmdServices.GetNameListResponse;
 import MmsServices.ResponceServices.VmdServices.IdentifyResponse;
@@ -118,7 +118,6 @@ public class ConfirmedResponse extends HighStructServiceBody {
 
     @Override
     public String build(String data) {
-        return BuildPointer.getParent(this, data);
-    }
+        return ServiceConnector.getParent(this, data);    }
 
 }

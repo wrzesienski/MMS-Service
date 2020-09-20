@@ -1,6 +1,6 @@
 package MmsServices.RequestServices;
 
-import IecStructure.IED;
+import IedStructure.IED;
 import MmsServices.AbstractService;
 
 /*

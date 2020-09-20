@@ -1,6 +1,6 @@
 package ModelVMD.EventObj;
 
-import MmsServices.BuildPointer;
+import MmsServices.ServiceConnector;
 import ModelVMD.MmsObject;
 import ModelVMD.MmsObjectType;
 
@@ -28,7 +28,7 @@ public class EventAction extends MmsObject {
     }
 
     public void makeAction(String data){
-        BuildPointer.makeRequest(serviceReq, data);
+        ServiceConnector.makeRequest(serviceReq, data);
     }
 
 

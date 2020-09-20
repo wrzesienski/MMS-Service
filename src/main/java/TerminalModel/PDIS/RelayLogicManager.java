@@ -41,8 +41,9 @@ public class RelayLogicManager {
         if (digitSignal.isTriggered(minTripPoint)) {
 
             setTrip(true);
-            System.out.println(
-                    "До отключения осталось: " + (timeSet - (timeWait = digitSignal.getTime() - iniTime)));
+            timeWait = digitSignal.getTime() - iniTime;
+//            System.out.println(
+//                    "До отключения осталось: " + (timeSet - timeWait));
         }
         else setTrip(false);
 

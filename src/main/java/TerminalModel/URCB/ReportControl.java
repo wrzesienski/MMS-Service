@@ -1,10 +1,11 @@
 package TerminalModel.URCB;
 
-import IecStructure.LogicalDevice;
-import IecStructure.LogicalNode;
-import IecStructure.SclClass;
+import IedStructure.*;
+import MmsServices.UnconfirmedServices.EventNotification;
 import TerminalModel.NodeConnector;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,7 +14,6 @@ public class ReportControl extends NodeConnector {
     private String nodeUnderCon;
     private boolean trip;
     private boolean order;
-    private LogicalNode logicalNode;
     private NodeConnector prisoner;
 
     public ReportControl(LogicalNode logicalNode, String underCon){
@@ -50,17 +50,19 @@ public class ReportControl extends NodeConnector {
         this.nodeUnderCon = nodeUnderCon;
     }
 
-    public void setLinks(String node) {
+    public void setLinks() {
         /* костыль
         в классе Report в measures записана ссылка на одну измеряемую Value
         возвращается с square brackets, которые удаляются вручную
          */
         setSigUnderCon(String.valueOf(getMeasures().keySet()).replaceAll("\\[|\\]", ""));
-        setNodeUnderCon(node);
         NodeConnector prisoner = getDad().getNodeObj();
+        setNodeUnderCon(prisoner.getRootName());
         assert prisoner!=null : "NOT FOUND NEEDED PRISONER VALUE";
         setPrisoner(prisoner);
+
         setTrip((Boolean) getPrisoner().getMeasures().get(getSigUnderCon()));
+        System.out.println("");
     }
 
     public boolean isOrder() {
@@ -81,24 +83,28 @@ public class ReportControl extends NodeConnector {
 
     @Override
     public void start() {
-        Thread thread = new Thread(() -> {
+          Thread thread = new Thread(() -> {
             while (order) {
 
                 // парсинг конфигурации файла
-                if (!getPrisoner().getMeasures().get(sigUnderCon).equals(trip)) {
-                    System.out.println("oo");
+                 if (!getPrisoner().getMeasures().get(sigUnderCon).equals(trip)) {
                     LogicalDevice ld =(LogicalDevice) getDadByType(SclClass.LD);
                     ArrayList<String> adList = ld.getReportAdresses();
-                     if(adList!=null){
-//                        sendReport();
-
+                    IED ied = (IED) getDadByType(SclClass.IED);
+                    String str = new EventNotification().build(setReport());
+                    ied.getServer().sendEvent(str);
+                    try {
+                        Thread.sleep(100000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
             }
         });
         thread.start();
@@ -107,6 +113,21 @@ public class ReportControl extends NodeConnector {
     @Override
     public void stop() {
 
+    }
+
+    public String setReport(){
+     String rep = "";
+        RootClass cl = getDad();
+     while (cl.getDad()!=null){
+         rep+="$"+cl.getDad().getRootName();
+         cl=cl.getDad();
+     }
+     rep+="$" + sigUnderCon;
+     rep+="$" + nodeUnderCon;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        rep+="$"+ dtf.format(now);
+     return rep;
     }
 //
 //    public void sendReport(){

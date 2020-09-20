@@ -1,7 +1,10 @@
 package MmsServices.RequestServices;
 
 import CodeProcessing.CodeTypeConverter;
+import IedStructure.RootClass;
 import MmsServices.HighStructServiceBody;
+
+import java.util.ArrayList;
 
 /*
 		objectClass		[0] IMPLICIT INTEGER
@@ -69,9 +72,9 @@ public class ObjectClass extends HighStructServiceBody {
 
         switch (tag) {
             case 0:
-//                return CodeTypeConverter.dataToHex(getLD());
+                return CodeTypeConverter.s_dataToHex(getDatSet(tag));
             case 1:
-//                return CodeTypeConverter.dataToHex(getLN());
+                return CodeTypeConverter.s_dataToHex(getDatSet(tag));
             case 2:
 //                return CodeConverter.dataToHex(getDatSet());
             default:
@@ -110,16 +113,15 @@ public class ObjectClass extends HighStructServiceBody {
 //        }
 //    }
 
-//    private ArrayList<String> getDatSet(){
-//        ArrayList<String> ob = new ArrayList<>();
-//        for (LogicalDevice logicalDevice : getIed().getLogicalDevices()) {
-//            for(LogicalNode logicalNode: logicalDevice.getLogicalNodeList()){
-//            if (logicalNode.getRootName().equals(CodeTypeConverter.convertHexToString(getData().replaceAll(" ", "")))) {
-//                ob.addAll(logicalNode.getMeasruments().keySet());
-//            }}
-//        }
-//        return ob;
-//    }
+    private ArrayList<String> getDatSet(int tag){
+        ArrayList<String> ob = new ArrayList<>();
+        RootClass root = getIed().getChild(CodeTypeConverter.convertHexToString(getData().replaceAll(" ", "")));
+        for(RootClass ro: root.getChilds()){
+            ob.add(ro.getRootName());
+        }
+        ob.add(String.valueOf(tag));
+        return ob;
+    }
 //private ArrayList<RootClass> getLD() {
 //    return new ArrayList<>(getIed().getLogicalDevices());
 //}
@@ -137,7 +139,7 @@ public class ObjectClass extends HighStructServiceBody {
 //        }
 //        return ob;
 //    }
-
+//
 //    @Override
 //    public String process(String data, IED ied) {
 //        setContent(data);

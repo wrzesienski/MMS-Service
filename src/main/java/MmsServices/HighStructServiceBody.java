@@ -1,6 +1,6 @@
 package MmsServices;
 
-import IecStructure.IED;
+import IedStructure.IED;
 
 /**
  * Класс сервисов запросов
@@ -34,9 +34,14 @@ public abstract class HighStructServiceBody extends AbstractService{
                 setId(levelSplitData[0]);
                 setData(levelSplitData[2]);
                 localRetData = choice(getId().getTag());
-                if(localRetData!=null) {
+                if(localRetData!=null){
+                if(localRetData.split(" ")[0].equals("Error")) {
+                    // дополняем список данных для ответа клиенту
+                    return ServiceConnector.getError(
+                            this, localRetData.split(" ")[1]);
+                }else {
                     returnedDataBuilder.append(localRetData);
-                }
+                }}
                 break;
             case SEQUENCE: // ряд передаваемых данных
                 boolean endOfMes = false;
@@ -73,18 +78,25 @@ public abstract class HighStructServiceBody extends AbstractService{
                     }
 
                     localRetData = choice(getId().getTag());
-                    if(localRetData!=null) {
+                    if(localRetData!=null){
+                    if(localRetData.split(" ")[0].equals("Error")) {
                         // дополняем список данных для ответа клиенту
-                        returnedDataBuilder.append(localRetData);
+                        return ServiceConnector.getError(
+                                this, localRetData.split(" ")[1]);
+                    }else if(localRetData.split(" ")[0].equals("Reject")){
+                        return ServiceConnector.getError(
+                                this, localRetData.split(" ")[1]);
                     }
-
+                    else {
+                        returnedDataBuilder.append(localRetData);
+                    }}
                 }
                 break;
             default:
                 return null;
         }
         if (!(returnedDataBuilder.length()==0)) { // ???
-            return BuildPointer.getResponse(this, returnedDataBuilder.toString());
+            return ServiceConnector.getResponse(this, returnedDataBuilder.toString());
         }
         return null;
     }

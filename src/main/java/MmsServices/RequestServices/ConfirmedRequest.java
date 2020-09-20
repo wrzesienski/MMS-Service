@@ -1,7 +1,10 @@
 package MmsServices.RequestServices;
 
-import IecStructure.IED;
+import CodeProcessing.CodeTypeConverter;
+import IedStructure.IED;
 import MmsServices.AbstractService;
+import MmsServices.AssociationServices.AssociationRequest;
+import MmsServices.ServiceConnector;
 
 /*
     ConfirmedServiceRequest  ::= CHOICE
@@ -117,7 +120,9 @@ public class ConfirmedRequest extends AbstractService {
 //            case 71: // GetCapabilityList
 //                return new ConfirmedResponse().build(getVmd().getCapabList());
             case 8:
-                return new AssociationServiceRequest().process(getData(), getIed());
+                return new AssociationRequest().process(getData(), getIed());
+            case 65:
+                return new ReadJournalRequest().process(getData(), getIed());
             default:
                 return null;
         }
@@ -125,7 +130,12 @@ public class ConfirmedRequest extends AbstractService {
 
     @Override
     public String build(String data) {
-        return null;
+//        return BuildPointer.getParent(this,
+//                CodeTypeConverter.convertIntToHex("1") + " " + data);
+        return ServiceConnector.getParent(this,
+                CodeTypeConverter.stickMessage(
+                        CodeTypeConverter.convertIntToHex(String.valueOf(getIed().getId())),
+                        CodeTypeConverter.stickId(0,0,0) ) + " " + data);
     }
 
 //    @Override
@@ -135,20 +145,33 @@ public class ConfirmedRequest extends AbstractService {
 
     @Override
     public String process(String data, IED ied) {
+        String ret = "";
+        boolean boo =false;
         setIed(ied);
         String[] splitData;
             splitData = data.split(" ", 4);
             setId(splitData[0]);
             setLength(splitData[1]);
             setContent(splitData[2]);
-            if (getContent() == 1){ // проверка пароля "1" по умолчанию
+            for (int in: getIed().getAssociations().keySet()){
+                if(getContent()==in){
+                    boo = true;
+                    break;
+                }
+            }
+            if (boo){ // проверка пароля "1" по умолчанию
                 splitData = splitData[3].split(" ", 3);
                 setId(splitData[0]);
                 setLength(splitData[1]);
                 setData(splitData[2]);
-                return choice(getId().getTag());
+                ret = choice(getId().getTag());
+            }else {
+                ret = "Error 1";
             }
-            return "Error";
+            if(ret.split(" ")[0].equals("Error")){
+                return ServiceConnector.getError(this, ret.split(" ")[1]);
+            }
+            return ret;
 
     }
 }

@@ -1,6 +1,6 @@
 package MmsServices.ResponceServices.VmdServices;
 
-import MmsServices.BuildPointer;
+import MmsServices.ServiceConnector;
 import MmsServices.ResponseService;
 
 
@@ -32,7 +32,7 @@ public class GetNameListResponse extends ResponseService {
 
     @Override
     public String build(String data) {
-        return BuildPointer.getParent(this, data);
+        return ServiceConnector.getParent(this, data);
     }
 
 }

@@ -1,6 +1,6 @@
 package TerminalModel;
 
-import IecStructure.RootClass;
+import IedStructure.RootClass;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +12,7 @@ public abstract class NodeConnector extends RootClass implements ConnectInterfac
     public NodeConnector(RootClass dad, ArrayList<String> list){
         setDad(dad);
         addMeasures(list);
+        setRootName(dad.getRootName()+"_Engine");
     }
 
     private HashMap<String, Object> measures;

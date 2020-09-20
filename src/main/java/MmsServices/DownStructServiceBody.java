@@ -1,6 +1,6 @@
 package MmsServices;
 
-import IecStructure.IED;
+import IedStructure.IED;
 
 public abstract class DownStructServiceBody extends AbstractService {
 

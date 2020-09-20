@@ -1,6 +1,6 @@
 package MmsServices.RequestServices;
 
-import IecStructure.IED;
+import IedStructure.IED;
 import MmsServices.HighStructServiceBody;
 
 public class SetDataValuesRequest extends HighStructServiceBody {
@@ -43,6 +43,7 @@ public class SetDataValuesRequest extends HighStructServiceBody {
 
     @Override
     public String build(String data) {
+
         return null;
     }
 

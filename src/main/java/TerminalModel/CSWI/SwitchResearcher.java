@@ -1,7 +1,7 @@
 package TerminalModel.CSWI;
 
-import IecStructure.LogicalNode;
-import IecStructure.SclClass;
+import IedStructure.LogicalNode;
+import IedStructure.SclClass;
 import TerminalModel.NodeConnector;
 
 import java.io.IOException;

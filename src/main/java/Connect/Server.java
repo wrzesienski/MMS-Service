@@ -24,6 +24,8 @@ int clientPort = 9000;
          serverSocket = new ServerSocket(serverPort);
             String str = "/Users/Alexander/JavaProjects/MMS-Service/src/main/resources/Attempt2.scd";
         IedConfigurator.configIed(ied); // парсинг scl
+        ied.setScadaServer(this);
+        ied.start();
 
         MmsPDU mmsPDU = new MmsPDU();
 
@@ -54,8 +56,10 @@ int clientPort = 9000;
                     e.printStackTrace();
                 }
 
-            }});
+            }
+        });
         thread2.start();
+
         }
 
     public IED getIed() {

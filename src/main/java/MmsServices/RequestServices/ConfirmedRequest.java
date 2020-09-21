@@ -134,7 +134,7 @@ public class ConfirmedRequest extends AbstractService {
 //                CodeTypeConverter.convertIntToHex("1") + " " + data);
         return ServiceConnector.getParent(this,
                 CodeTypeConverter.stickMessage(
-                        CodeTypeConverter.convertIntToHex(String.valueOf(getIed().getId())),
+                        CodeTypeConverter.convertIntToHex(String.valueOf(123)),
                         CodeTypeConverter.stickId(0,0,0) ) + " " + data);
     }
 

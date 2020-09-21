@@ -15,9 +15,12 @@ public class IED extends RootClass{
     public IED(String sclLink, int id){
         setType(SclClass.IED);
         setSclLink(sclLink);
+        setRootName("IED");
+        setId(111); // default
     }
 
 
+    private ArrayList<String> journal;
 
     private int id;
     private String sclLink;
@@ -59,16 +62,28 @@ public class IED extends RootClass{
 
 
 
-    public void setScadaServer() {
-        try {
-            this.server = new Server(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setScadaServer(Server server) {
+        this.server = server;
     }
 
-    public ArrayList<String> getJournal() {
-        return journal;
+    public String getJournal() {
+        String ret = "";
+        if(journal==null){
+            journal=new ArrayList<>();
+            return "";
+        }
+
+        for (String rep: journal){
+            ret +=rep+"##";
+        }
+
+        return ret;
+    }
+    public void addToJournal(String report){
+        if(this.journal==null){
+            journal = new ArrayList<>();
+        }
+        journal.add(report);
     }
 
     public void addReport(String rep){
@@ -81,7 +96,6 @@ public class IED extends RootClass{
         this.journal = journal;
     }
 
-    private ArrayList<String> journal;
 
     public ArrayList<String> getIedService() {
         return iedService;
@@ -103,7 +117,6 @@ public class IED extends RootClass{
         for(RootClass child: getChilds()){
             if(child!=null) child.start();
         }
-        setScadaServer();
     }
 
     @Override

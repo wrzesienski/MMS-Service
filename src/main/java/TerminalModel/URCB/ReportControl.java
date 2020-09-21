@@ -61,7 +61,7 @@ public class ReportControl extends NodeConnector {
         assert prisoner!=null : "NOT FOUND NEEDED PRISONER VALUE";
         setPrisoner(prisoner);
 
-        setTrip((Boolean) getPrisoner().getMeasures().get(getSigUnderCon()));
+        setTrip((Boolean) getPrisoner().getNeededMes(sigUnderCon).getMean());
         System.out.println("");
     }
 
@@ -87,26 +87,25 @@ public class ReportControl extends NodeConnector {
             while (order) {
 
                 // парсинг конфигурации файла
-                 if (!getPrisoner().getMeasures().get(sigUnderCon).equals(trip)) {
-                    LogicalDevice ld =(LogicalDevice) getDadByType(SclClass.LD);
-                    ArrayList<String> adList = ld.getReportAdresses();
+                if (!((Boolean) getPrisoner().getNeededMes(sigUnderCon).getMean()).equals(trip)) {
                     IED ied = (IED) getDadByType(SclClass.IED);
                     String str = new EventNotification().build(setReport());
+                    ((IED) getDadByType(SclClass.IED)).addToJournal(str);
                     ied.getServer().sendEvent(str);
                     try {
-                        Thread.sleep(100000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
             }
-        });
+          });
         thread.start();
     }
 
@@ -115,19 +114,24 @@ public class ReportControl extends NodeConnector {
 
     }
 
+    /**
+     * метод отправки отчетов
+     * @return
+     */
     public String setReport(){
-     String rep = "";
+     StringBuilder rep = new StringBuilder();
+        rep.append("_").append(sigUnderCon);
+        rep.append("_").append(nodeUnderCon);
         RootClass cl = getDad();
      while (cl.getDad()!=null){
-         rep+="$"+cl.getDad().getRootName();
+         rep.append("_").append(cl.getRootName());
          cl=cl.getDad();
      }
-     rep+="$" + sigUnderCon;
-     rep+="$" + nodeUnderCon;
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd$HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        rep+="$"+ dtf.format(now);
-     return rep;
+        rep.append("_").append(dtf.format(now));
+     return rep.toString();
     }
 //
 //    public void sendReport(){

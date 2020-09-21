@@ -2,12 +2,16 @@ package MmsServices.UnconfirmedServices;
 
 import CodeProcessing.CodeTypeConverter;
 import IedStructure.IED;
-import MmsServices.DownStructServiceBody;
+import MmsServices.HighStructServiceBody;
 import MmsServices.ServiceConnector;
 
 import java.util.ArrayList;
 
-public class EventNotification extends DownStructServiceBody {
+public class ReportInfo extends HighStructServiceBody {
+    public ReportInfo() {
+        super(ServiceType.CHOICE);
+    }
+
     @Override
     public String choice(int tag) {
         return null;
@@ -16,7 +20,7 @@ public class EventNotification extends DownStructServiceBody {
     @Override
     public String build(String data) {
         ArrayList<String> l = new ArrayList<>();
-        l.add(data);
+        l.add(CodeTypeConverter.convertIntToHex(data));
         l.add("0");
 
         return ServiceConnector.getParent(this, CodeTypeConverter.s_dataToHex(l));
@@ -27,7 +31,6 @@ public class EventNotification extends DownStructServiceBody {
         setIed(ied);
         String[] splitData = data.split(" ", 3);
         setId(splitData[0]);
-        setData(splitData[2]);
         System.out.println(CodeTypeConverter.convertHexToString(getData()));
         return null;
     }

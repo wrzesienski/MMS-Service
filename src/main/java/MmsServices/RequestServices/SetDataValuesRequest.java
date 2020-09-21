@@ -1,7 +1,11 @@
 package MmsServices.RequestServices;
 
-import IedStructure.IED;
+import CodeProcessing.CodeTypeConverter;
 import MmsServices.HighStructServiceBody;
+import MmsServices.ServiceConnector;
+import TerminalModel.NodeConnector;
+
+import java.util.ArrayList;
 
 public class SetDataValuesRequest extends HighStructServiceBody {
 
@@ -20,7 +24,7 @@ public class SetDataValuesRequest extends HighStructServiceBody {
     public String choice(int tag) {
         switch (tag){
             case 0:
-//                ooo();
+//                setValues();
                 break;
             default:
                 return "2";
@@ -43,12 +47,27 @@ public class SetDataValuesRequest extends HighStructServiceBody {
 
     @Override
     public String build(String data) {
+        String ret = "";
+        String[] da = data.split(" ");
+        for(int i=0;i<=da.length; i+=2){
+            ArrayList<String> aa = new ArrayList<>();
+            aa.add(da[i]);
+            aa.add("0");
+            ret+= CodeTypeConverter.s_dataToHex(aa);
+        }
+        return ServiceConnector.getParent(this, ret.replaceAll("  ", " "));
 
-        return null;
     }
 
-    @Override
-    public String process(String data, IED ied) {
+    public String setValues(){
+        String[] aa = CodeTypeConverter.convertHexToString(getData()).split("##");
+        String[] bb = aa[1].split("[$]");
+        String[] cc = aa[2].split("[$]");
+        NodeConnector node = (NodeConnector) getIed().getChild(aa[0]);
+        for(int i=0; i<bb.length; i++){
+            if(node.getMeasures().get(bb[i])!=null) {
+                node.setMean(bb[i], cc[i]);
+            }  }
         return null;
     }
 }

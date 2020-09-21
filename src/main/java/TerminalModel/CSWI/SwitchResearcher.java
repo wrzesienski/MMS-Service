@@ -2,6 +2,7 @@ package TerminalModel.CSWI;
 
 import IedStructure.LogicalNode;
 import IedStructure.SclClass;
+import TerminalModel.Data;
 import TerminalModel.NodeConnector;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ public class SwitchResearcher extends NodeConnector {
     public SwitchResearcher(LogicalNode logicalNode, ArrayList<String> meas){
         super(logicalNode, meas);
         setType(SclClass.LN_BODY);
+
     }
 
     @Override
@@ -38,22 +40,39 @@ public class SwitchResearcher extends NodeConnector {
 
     @Override
     public void rebuildMeasures() {
-        String[] list = (String[]) getMeasures().keySet().toArray();
-        for (int i = 0; i <= list.length; i++) {
-            switch (list[i]) {
+        for (Data d: getMes()) {
+            switch (d.getName()) {
                 case "Mod":
-                    setMean(list[i], pos);
+                    d.setMean(pos);
                     break;
                 case "OpOpn":
-                    setMean(list[i], orderOn);;
+                    orderOn = (Boolean) d.getMean();
                     break;
-
                 case "OpCls":
-                    setMean(list[i], orderOff);
+                    orderOff = (Boolean) d.getMean();
                     break;
             }
         }
     }
+
+    public void configData(){
+        for(Data dat: getMes()){
+            switch (dat.getName()){
+                case "Mod":
+                    dat.setType(Data.Type.ONLY_READ);
+                    break;
+                case "OpOpn":
+                    dat.setType(Data.Type.ONLY_OPERATE);
+                    dat.setMean(false);
+                    break;
+                case "OpCls":
+                    dat.setType(Data.Type.ONLY_OPERATE);
+                    dat.setMean(false);;
+                    break;
+            }
+        }
+    }
+
 
     private boolean checkOrders(){
         if (orderOn) {

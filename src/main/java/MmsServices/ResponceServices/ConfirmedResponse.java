@@ -2,10 +2,6 @@ package MmsServices.ResponceServices;
 
 import MmsServices.ServiceConnector;
 import MmsServices.HighStructServiceBody;
-import MmsServices.ResponceServices.VmdServices.GetNameListResponse;
-import MmsServices.ResponceServices.VmdServices.IdentifyResponse;
-import MmsServices.ResponceServices.VmdServices.StatusResponse;
-import Old.Response.VariablesServices.ReadResponse;
 
 /*
 ConfirmedServiceResponse  ::= CHOICE
@@ -104,9 +100,9 @@ public class ConfirmedResponse extends HighStructServiceBody {
             case 2: // IdentifyRequest
                 return new IdentifyResponse().process(getData(), getIed()); // here should be bool
             case 3:
-                return null;
+                return new GetDataValuesResponse().process(getData(), getIed());
             case 4:
-                return new ReadResponse().process(getData(), getIed());
+                return null;
             case 5:
                 return null;
 //            case 71: // GetCapabilityList

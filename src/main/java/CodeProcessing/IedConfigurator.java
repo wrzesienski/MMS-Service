@@ -36,12 +36,10 @@ public class IedConfigurator {
     }
 
     public static void configLD(LogicalDevice logicalDevice, TLDevice tlDevice){
-        logicalDevice.setRootName(tlDevice.getInst());
         logicalDevice.addChilds(getLNList(tlDevice.getLN(), logicalDevice));
     }
 
     public static void configLN(LogicalNode logicalNode, TLN tln){
-        logicalNode.setRootName(tln.getLnType());
         logicalNode.addChild(setNode(logicalNode, tln.getLnClass().get(0), getValues(tln)));
         logicalNode.addChilds(configReport(logicalNode, tln.getReportControl()));
     }
@@ -77,6 +75,7 @@ public class IedConfigurator {
         int tag = 1;
         for (TLDevice tlDevice: tlDevices){
             LogicalDevice logicalDevice = new LogicalDevice(ied);
+            logicalDevice.setRootName(ied.getRootName()+"$"+tlDevice.getInst());
             configLD(logicalDevice, tlDevice);
             logicalDevices.add(logicalDevice);
             tag++;
@@ -90,7 +89,7 @@ public class IedConfigurator {
         int tag = 1;
         for (TLN tln: tlnList){
             LogicalNode logicalNode = new LogicalNode(logicalDevice);
-            logicalNode.setRootName(tln.getLnClass().get(0));
+            logicalNode.setRootName(logicalDevice.getRootName()+"$" + tln.getLnType());
             configLN(logicalNode, tln);
             logicalNodes.add(logicalNode);
             tag++;

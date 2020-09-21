@@ -2,6 +2,7 @@ package TerminalModel.SIMG;
 
 import IedStructure.LogicalNode;
 import IedStructure.SclClass;
+import TerminalModel.Data;
 import TerminalModel.NodeConnector;
 
 import java.util.ArrayList;
@@ -76,26 +77,41 @@ public class HF_Measurement extends NodeConnector {
 
     @Override
     public void rebuildMeasures() {
-        String[] list = (String[]) getMeasures().keySet().toArray();
-        for (int i = 0; i <= list.length; i++) {
-            switch (list[i]) {
+        for (Data d: getMes()) {
+            switch (d.getName()) {
                 case "Temp":
-                    setMean(list[i], temp);
+                    d.setMean(temp);
                     break;
                 case "Den":
-                    setMean(list[i], den);
+                    d.setMean(den);
                     break;
                 case "Pres":
-                    setMean(list[i], pres);
+                    d.setMean(pres);
                     break;
                 case "PresAlm":
-                    setMean(list[i], presAlm);
+                    d.setMean(presAlm);
                     break;
                 case "TempAlm":
-                    setMean(list[i], tempAlm);
+                    d.setMean(tempAlm);
                     break;
                 case "DenAlm":
-                    setMean(list[i], denAlm);
+                    d.setMean(denAlm);
+                    break;
+            }
+        }
+    }
+
+    public void configData() {
+        for (Data dat : getMes()) {
+            switch (dat.getName()) {
+
+                case "Temp":
+                case "Den":
+                case "Pres":
+                case "PresAlm":
+                case "TempAlm":
+                case "DenAlm":
+                    dat.setType(Data.Type.ONLY_READ);
                     break;
 
             }

@@ -10,6 +10,8 @@ public interface ConnectInterface {
 
     public void rebuildMeasures();
 
+    public void configData();
+
     public HashMap<String, Object> getMeasures();
 
     public HashMap<String, Object> addMeasures(List<String> list);

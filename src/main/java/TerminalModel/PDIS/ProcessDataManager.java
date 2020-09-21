@@ -1,7 +1,11 @@
 package TerminalModel.PDIS;
 
+import CodeProcessing.ConfigWorker;
+import IedStructure.IED;
 import IedStructure.LogicalNode;
 import IedStructure.SclClass;
+import SclBodies.SCL;
+import TerminalModel.Data;
 import TerminalModel.NodeConnector;
 
 import java.io.BufferedReader;
@@ -157,19 +161,35 @@ public class ProcessDataManager extends NodeConnector {
 
     @Override
     public void rebuildMeasures() {
-        Object[] list = getMeasures().keySet().toArray();
-        for (int i = 0; i < list.length; i++) {
-            switch ((String)list[i]) {
+        SCL scl = ConfigWorker.unMarshalAny(SCL.class, ((IED) getDadByType(SclClass.IED)).getSclLink());
+        for (Data d: getMes()) {
+            switch (d.getName()) {
                 case "BlkZn":
-                    setMean((String) list[i], bm.isBlocker());
+                    d.setMean(bm.isBlocker());
                     break;
                 case "CutTrip":
-                    setMean((String)list[i], relayManager.getCutOffTrip());;
+                    relayManager.setCutOffTrip((Double) d.getMean());
                 break;
-
                 case "Str":
-                    setMean((String) list[i], relayManager.isBoo());
-                break;
+                    d.setMean(relayManager.isBoo());
+                    break;
+            }
+        }
+    }
+
+    public void configData(){
+        for(Data dat: getMes()){
+            switch (dat.getName()){
+                case "BlkZn":
+                    dat.setType(Data.Type.ONLY_READ);
+                    break;
+                case "CutTrip":
+                    dat.setType(Data.Type.ONLY_OPERATE);
+                    dat.setMean(relayManager.getCutOffTrip());
+                    break;
+                case "Str":
+                    dat.setType(Data.Type.ONLY_READ);;
+                    break;
             }
         }
     }

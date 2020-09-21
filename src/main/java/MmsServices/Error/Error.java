@@ -1,9 +1,8 @@
 package MmsServices.Error;
 
-import CodeProcessing.CodeTypeConverter;
 import IedStructure.IED;
-import MmsServices.ServiceConnector;
 import MmsServices.HighStructServiceBody;
+import MmsServices.ServiceConnector;
 
 public abstract class Error extends HighStructServiceBody {
     public Error() {
@@ -20,8 +19,9 @@ public abstract class Error extends HighStructServiceBody {
     }
 
     public void getReason(String data){
-        String dt = CodeTypeConverter.convertHexToInt(data);
-        choice(Integer.parseInt(dt));
+        System.out.println(data);
+//        String dt = CodeTypeConverter.convertHexToInt(data);
+//        choice(Integer.parseInt(dt));
     }
 
     @Override

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -53,19 +54,24 @@ public class ClientARM {
 
                         socket = new Socket("localhost", ClietnPort);
                         System.out.println("Соединение с сервером установлено");
-                        PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+                        PrintWriter printWriter;
                         String str = processUserCommand(Conscanner.nextLine());
                         System.out.println(str);
                         if (str != null) {
-                            printWriter = new PrintWriter(socket.getOutputStream(), true);
-                            printWriter.println(str);
-                            printWriter.close();
+                            try {
 
+                                printWriter = new PrintWriter(socket.getOutputStream(), true);
+                                printWriter.println(str);
+                                printWriter.close();
+                            }
+                            catch (SocketException e){
+
+                            }
                         }
-
+                        socket.close();
                     }
 
-                    socket.close();
+
 
 
                 } catch (IOException e) {
@@ -105,6 +111,8 @@ public class ClientARM {
             }
         });
         thread.start();
+
+
     }
 
 
@@ -127,6 +135,10 @@ public class ClientARM {
                 return null;
 
         }}
+
+//        public String setUnconfirmedReq(){
+//
+//        }
 
         public String setAssociation(){
             String ret = "";
@@ -196,6 +208,7 @@ public class ClientARM {
                 type = (new Scanner(System.in)).nextLine();
                 return new GetNameListRequest(link).build(name + " " + type);
                 case "GetDataValues":
+
                     System.out.println("Input idClass: ");
                     name = (new Scanner(System.in)).nextLine();
                     return new GetDataValuesRequest(link).build(name);
@@ -214,9 +227,13 @@ public class ClientARM {
         SCL scl = ConfigWorker.unMarshalAny(SCL.class, link);
         ArrayList<TS> services = scl.getIED().get(0).getServices().getServices();
         ArrayList<String> ss = new ArrayList<>();
-        for(TS serv: services){
+        try{
+            for(TS serv: services){
                 ss.add(serv.getSs());
 
+            }
+        } catch (NullPointerException e){
+            return null;
         }
         return ss;
     }

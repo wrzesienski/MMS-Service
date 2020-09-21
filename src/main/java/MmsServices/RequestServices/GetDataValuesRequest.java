@@ -2,6 +2,7 @@ package MmsServices.RequestServices;
 
 import CodeProcessing.CodeTypeConverter;
 import MmsServices.HighStructServiceBody;
+import MmsServices.ServiceConnector;
 import TerminalModel.NodeConnector;
 
 import java.util.ArrayList;
@@ -33,25 +34,34 @@ public class GetDataValuesRequest extends HighStructServiceBody {
             case 0:
 //                return CodeConverter.dataToHex(ooo());
             case 1:
-                return CodeTypeConverter.s_dataToHex(getValues(tag));
+                return getValues(tag);
             default:
                 return "2";
         }
     }
 
-    public ArrayList<String> getValues(int tag){
-        NodeConnector node = (NodeConnector) getIed().getChild(getData());
-        ArrayList<String> ob = new ArrayList<>();
+    public String getValues(int tag){
+        String rootName = CodeTypeConverter.convertHexToString(getData());
+        NodeConnector node = (NodeConnector) getIed().getChild(rootName);
+        String ret =rootName+"##";
         for (Object str: node.getMeasures().entrySet()){
-            ob.add(String.valueOf(str));
+            ret+=str+"$";
         }
-        ob.add(String.valueOf(tag));
-        return ob;
+        ret+=" " + tag + " ";
+        return ret;
     }
 
     @Override
     public String build(String data) {
-        return null;
+        String ret = "";
+        String[] da = data.split(" ");
+        for(int i=0;i<da.length; i+=2){
+            ArrayList<String> aa = new ArrayList<>();
+            aa.add(da[i]);
+            aa.add("0");
+            ret+=CodeTypeConverter.s_dataToHex(aa);
+        }
+        return ServiceConnector.getParent(this, ret.replaceAll("  ", " "));
     }
 
 }

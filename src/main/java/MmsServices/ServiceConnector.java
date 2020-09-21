@@ -8,10 +8,8 @@ import MmsServices.Error.ConfirmedError;
 import MmsServices.Error.UnconfirmedError;
 import MmsServices.RequestServices.ConfirmedRequest;
 import MmsServices.RequestServices.SetDataValuesRequest;
-import MmsServices.ResponceServices.ConfirmedResponse;
-import MmsServices.ResponceServices.VmdServices.GetNameListResponse;
-import MmsServices.ResponceServices.VmdServices.IdentifyResponse;
-import MmsServices.ResponceServices.VmdServices.StatusResponse;
+import MmsServices.ResponceServices.*;
+import MmsServices.UnconfirmedServices.UncomfirmedService;
 
 public class ServiceConnector {
 
@@ -34,6 +32,8 @@ public class ServiceConnector {
                 return new GetNameListResponse().build(msg);
             case "AssociationRequest":
                 return new AssociationResponce().build(msg);
+            case "GetDataValuesRequest":
+                return new GetDataValuesResponse().build(msg);
             default:
                 return null;
         }
@@ -88,14 +88,11 @@ public class ServiceConnector {
             case "IdentifyResponse":
                 msg = addChoice(2, msg);
                 return new ConfirmedResponse().build(msg);
-            case "StatusResponse":
-                msg = addChoice(3, msg);
-                return new ConfirmedResponse().build(msg);
-            case "ReadResponse":
+            case "GetDataValuesRequest":
                 msg = addChoice(4, msg);
-                return new ConfirmedResponse().build(msg);
-            case "WriteResponse":
-                msg = addChoice(5, msg);
+                return new ConfirmedRequest().build(msg);
+            case "GetDataValuesResponse":
+                msg = addChoice(3, msg);
                 return new ConfirmedResponse().build(msg);
             case "ConfirmedError":
                 msg = addChoice(2, msg);
@@ -108,6 +105,18 @@ public class ServiceConnector {
                 return new MmsPDU().build(msg);
             case "UnconfirmedError":
                 msg = addChoice(4, msg);
+                return new MmsPDU().build(msg);
+            case "EventNotification":
+                msg = addChoice(2, msg);
+                return new UncomfirmedService().build(msg);
+            case "ReportInfo":
+                msg = addChoice(0, msg);
+                return new UncomfirmedService().build(msg);
+            case "UncomfirmedService":
+                msg = addChoice(3, msg);
+                return new MmsPDU().build(msg);
+            case "ReadJournalRequest":
+                msg = addChoice(65, msg);
                 return new MmsPDU().build(msg);
         }
         return "";

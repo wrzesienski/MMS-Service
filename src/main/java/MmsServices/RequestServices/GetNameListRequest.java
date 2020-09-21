@@ -34,9 +34,9 @@ public class GetNameListRequest extends HighStructServiceBody {
 
         switch (tag) {
             case 0:
-                return CodeTypeConverter.s_dataToHex(getDatSet(tag));
+                return getLP(tag);
             case 1:
-                return CodeTypeConverter.s_dataToHex(getLP(tag));
+                return getDatSet(tag);
             case 2:
 //                return CodeConverter.dataToHex(getDatSet());
             default:
@@ -47,31 +47,39 @@ public class GetNameListRequest extends HighStructServiceBody {
     @Override
     public String build(String data) {
 
-        // формат приема данных "data1 tag1 data2 tag2 "
-        String[] split = data.split(" ");
-        ArrayList<String> s = new ArrayList<>();
-        for(int i=0;i<split.length; i+=2){
-            s.add(split[i]);
-            s.add(split[i+1]);
+        String ret = "";
+        String[] da = data.split(" ");
+        for(int i=0;i<da.length; i+=2){
+            ArrayList<String> aa = new ArrayList<>();
+            aa.add(da[i]);
+            aa.add(da[i+1]);
+            ret+=CodeTypeConverter.s_dataToHex(aa);
         }
-
-        return ServiceConnector.getParent(this, CodeTypeConverter.s_dataToHex(s));
+        return ServiceConnector.getParent(this, ret.replaceAll("  ", " "));
     }
 
-    private ArrayList<String> getLP(int tag){
+    private String getLP(int tag){
         ArrayList<String> ob = new ArrayList<>();
-        RootClass root = getIed().getChild(CodeTypeConverter.convertHexToString(getData().replaceAll(" ", "")));
+        String rootName = CodeTypeConverter.convertHexToString(getData().replaceAll(" ", ""));
+        RootClass root = getIed().getChild(rootName);
+        String ret= rootName+"##";
         for(RootClass ro: root.getChilds()){
-            ob.add(ro.getRootName());
+            ret+=ro.getRootName()+"$";
         }
-        ob.add(String.valueOf(tag));
-        return ob;
+        ret+=" " + tag + " ";
+        return ret;
     }
 
-    private ArrayList<String> getDatSet(int tag){
-        NodeConnector con  =(NodeConnector) getIed().getChild(CodeTypeConverter.convertHexToString(getData().replaceAll(" ", "")));
+    private String getDatSet(int tag){
+        String rootName = CodeTypeConverter.convertHexToString(getData().replaceAll(" ", ""));
+
+        NodeConnector con  =(NodeConnector) getIed().getChild(rootName);
         ArrayList<String> ob = new ArrayList<>(con.getMeasures().keySet());
-        ob.add(String.valueOf(tag));
-        return ob;
+        String ret= rootName+"##";
+        for (String key: ob){
+            ret+=ob+"$";
+        }
+        ret+=" " + String.valueOf(tag)+ " ";
+        return ret;
     }
 }

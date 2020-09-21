@@ -5,7 +5,7 @@ import IedStructure.IED;
 /**
  *  Класс абстрактного сервиса MMS
  */
-public abstract class AbstractService extends StepStructure implements ServiceInterface {
+public abstract class AbstractService extends ASN1Body implements ServiceInterface {
 
 
 

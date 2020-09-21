@@ -8,14 +8,47 @@ import java.util.List;
 
 public abstract class NodeConnector extends RootClass implements ConnectInterface {
 
+    public ArrayList<Data> getMes() {
+        return mes;
+    }
+    public Data getNeededMes(String name){
+        if(mes==null){
+            return null;
+        }
+        for(Data d: mes){
+            if(d.getName().equals(name)){
+                return d;
+            }
+        }
+        return null;
+
+    }
+
+    public void addMes(String name){
+        if(mes==null){
+            mes= new ArrayList<>();
+        }
+        mes.add(new Data(name));
+    }
+
+    public void setMes(ArrayList<Data> mes) {
+        this.mes = mes;
+    }
+
+
+    private ArrayList<Data> mes;
+    private HashMap<String, Object> measures;
 
     public NodeConnector(RootClass dad, ArrayList<String> list){
         setDad(dad);
-        addMeasures(list);
-        setRootName(dad.getRootName()+"_Engine");
+
+        for(String s: list){
+            addMes(s);
+        }
+        configData();
+        setRootName(dad.getRootName()+"$Engine");
     }
 
-    private HashMap<String, Object> measures;
 
     @Override
     public HashMap<String, Object> getMeasures() {

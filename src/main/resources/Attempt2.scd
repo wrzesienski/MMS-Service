@@ -18,11 +18,13 @@
             <Service name="GetNameList"/>
             <Service name="GetDataValues"/>
             <Service name="SetDataValues"/>
+            <Service name="ReadJournal"/>
+            <Service name="GetReport"/>
         </Services>
         <AccessPoint name="accessPoint1">
             <Server>
                 <Authentication/>
-                <LDevice inst="lDevice1">
+                <LDevice inst="LD1">
                     <LN0 lnClass="LLN0" inst="" lnType="LLN01">
                         <DataSet name="dataset1" desc="">
                             <FCDA ldInst="lDevice1" lnClass="MMXU" lnInst="1" doName="TotW" fc="MX"/>
@@ -102,6 +104,8 @@
                     </LN>
                     <LN lnClass="CSWI" inst="1" prefix="" lnType="CSWI1">
                         <ReportControl confRev="0" bufTime="0" intgPd="0" datSet="Mod" name="urcb2"/>
+                        <ReportControl confRev="0" bufTime="0" intgPd="0" datSet="OpOpn" name="urcb2"/>
+                        <ReportControl confRev="0" bufTime="0" intgPd="0" datSet="OpCls" name="urcb2"/>
                         <DOI name="Mod">
                             <DAI name="ctlVal">
 <Val>1</Val>

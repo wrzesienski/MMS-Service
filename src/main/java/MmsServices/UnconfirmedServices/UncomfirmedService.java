@@ -1,6 +1,7 @@
 package MmsServices.UnconfirmedServices;
 
 import MmsServices.HighStructServiceBody;
+import MmsServices.ServiceConnector;
 
 /*
 UnconfirmedService ::= CHOICE
@@ -21,14 +22,17 @@ public class UncomfirmedService extends HighStructServiceBody {
     @Override
     public String choice(int tag) {
         switch (tag){
+            case 2:
+                return new EventNotification().process(getData(), getIed());
             case 0:
-//                return new EventNotification
+                return new ReportInfo().process(getData(), getIed());
+
         }
         return null;
     }
 
     @Override
     public String build(String data) {
-        return null;
+        return ServiceConnector.getParent(this, data);
     }
 }

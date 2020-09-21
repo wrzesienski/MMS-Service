@@ -1,6 +1,10 @@
 package MmsServices.RequestServices;
 
+import CodeProcessing.CodeTypeConverter;
 import MmsServices.HighStructServiceBody;
+import MmsServices.ServiceConnector;
+
+import java.util.ArrayList;
 
 public class ReadJournalRequest extends HighStructServiceBody {
     public ReadJournalRequest() {
@@ -9,11 +13,14 @@ public class ReadJournalRequest extends HighStructServiceBody {
 
     @Override
     public String choice(int tag) {
-        return null;
+        return getIed().getJournal();
     }
 
     @Override
     public String build(String data) {
-        return null;
+        ArrayList<String> journal = new ArrayList<>();
+        journal.add("0");
+        journal.add("1");
+        return ServiceConnector.getParent(this, CodeTypeConverter.s_dataToHex(journal));
     }
 }

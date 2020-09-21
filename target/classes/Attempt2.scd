@@ -16,11 +16,15 @@
     <IED name="ied1">
         <Services>
             <Service name="GetNameList"/>
+            <Service name="GetDataValues"/>
+            <Service name="SetDataValues"/>
+            <Service name="ReadJournal"/>
+            <Service name="GetReport"/>
         </Services>
         <AccessPoint name="accessPoint1">
             <Server>
                 <Authentication/>
-                <LDevice inst="lDevice1">
+                <LDevice inst="LD1">
                     <LN0 lnClass="LLN0" inst="" lnType="LLN01">
                         <DataSet name="dataset1" desc="">
                             <FCDA ldInst="lDevice1" lnClass="MMXU" lnInst="1" doName="TotW" fc="MX"/>

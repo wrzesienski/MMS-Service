@@ -11,7 +11,6 @@ public abstract  class RootClass implements ControlInterface{
     private SclClass type;
 
     private ArrayList<RootClass> childs;
-
     private RootClass dad;
 
     public RootClass getDad() {
@@ -76,19 +75,21 @@ public abstract  class RootClass implements ControlInterface{
 
     public RootClass getChild(String id){
         // id format "iedName$LdName$"
-        String[] ids = id.split("[$]");
-        if(ids.length>=2){
-            for (RootClass rc: getChilds()){
-                if(rc.getRootName().equals(ids[0])){
-                    return rc.getChild(id.split("[$]", 2)[1]);
+        if(getChilds()==null){
+            return null;
+        }
+
+            for (RootClass rc: getChilds()) {
+                if (rc.getRootName().equals(id)) {
+                    return rc;
+                } else {
+                    RootClass ret = rc.getChild(id);
+                    if (ret != null) return ret;
+
                 }
             }
-        }for (RootClass rc: getChilds()){
-            if(rc.getRootName().equals(ids[0])){
-                return rc;
-            }
-        }
-        return null;
+            // адрес не найден
+            return null;
     }
 
     public NodeConnector getNodeObj(){

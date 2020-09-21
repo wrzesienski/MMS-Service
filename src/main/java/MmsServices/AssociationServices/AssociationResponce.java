@@ -5,8 +5,8 @@ import CodeProcessing.ConfigWorker;
 import IedStructure.IED;
 import MmsServices.ServiceConnector;
 import MmsServices.HighStructServiceBody;
-import SclBodies.SCL;
-import SclBodies.TS;
+import CodeProcessing.SclBodies.SCL;
+import CodeProcessing.SclBodies.TS;
 
 import java.util.ArrayList;
 
@@ -35,6 +35,16 @@ public class AssociationResponce extends HighStructServiceBody {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("Initiate-ResponsePDU ::= SEQUENCE\n" +
+                "\t{\n" +
+                "\tlocalDetailCalled\t\t\t\t\t[0] IMPLICIT Integer32 OPTIONAL,\n" +
+                "\tnegociatedMaxServOutstandingCalling\t[1] IMPLICIT Integer16,\n" +
+                "\tnegociatedMaxServOutstandingCalled\t[2] IMPLICIT Integer16,\n" +
+                "\tnegociatedDataStructureNestingLevel\t[3] IMPLICIT Integer8 OPTIONAL,\n" +
+                "\tmmsInitResponseDetail\t\t\t[4] IMPLICIT InitResponseDetail\n" +
+                "\t}");
+
         switch (tag) {
             case 0:
                 break;
@@ -45,6 +55,14 @@ public class AssociationResponce extends HighStructServiceBody {
             case 3:
                 break;
             case 4:
+
+                System.out.println("InitResponseDetail ::= SEQUENCE\n" +
+                        "\t{\n" +
+                        "\tnegociatedVersionNumber\t\t\t[0] IMPLICIT Integer16,\n" +
+                        "\tnegociatedParameterCBB\t\t\t[1] IMPLICIT ParameterSupportOptions,\n" +
+                        "\tservicesSupportedCalled\t\t\t[2] IMPLICIT ServiceSupportOptions\n" +
+                        "\t}");
+
                 setServices();
                 break;
 
@@ -71,6 +89,7 @@ public class AssociationResponce extends HighStructServiceBody {
         }
         scl.getIED().get(0).getServices().setServices(ts);
         ConfigWorker.marshalAny(SCL.class, scl, getIed().getSclLink());
+        System.out.println("Association accepted, services are available");
     }
 
     @Override

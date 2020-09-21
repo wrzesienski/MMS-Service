@@ -8,8 +8,5 @@ public class IEDStarter {
     public static void main(String[] args) throws IOException {
         String str = "/Users/Alexander/JavaProjects/MMS-Service/src/main/resources/Attempt2.scd";
         new Server(new IED(str, 111));
-//        IED ied = new IED(str, 111);
-//        IedConfigurator.configIed(ied);
-//        ied.start();
     }
 }

@@ -15,7 +15,7 @@
     </Header>
     <IED name="ied1">
         <Services>
-            <Service name="GetDataValues"/>
+            <Service name="SetDataValues"/>
         </Services>
         <AccessPoint name="accessPoint1">
             <Server>

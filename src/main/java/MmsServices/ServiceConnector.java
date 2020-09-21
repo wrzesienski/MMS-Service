@@ -26,8 +26,6 @@ public class ServiceConnector {
                 return new MmsPDU().build(msg);
             case "StatusRequest":
                 return new StatusResponse().build(msg);
-            case "IdentifyRequest":
-                return new IdentifyResponse().build(msg);
             case "GetNameListRequest":
                 return new GetNameListResponse().build(msg);
             case "AssociationRequest":
@@ -118,6 +116,9 @@ public class ServiceConnector {
             case "ReadJournalRequest":
                 msg = addChoice(65, msg);
                 return new MmsPDU().build(msg);
+            case "SetDataValuesRequest":
+                msg = addChoice(5, msg);
+                return new ConfirmedRequest().build(msg);
         }
         return "";
     }

@@ -24,6 +24,25 @@ public class MmsPDU extends HighStructServiceBody {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("MMSpdu ::= CHOICE\n" +
+                "\t{\n" +
+                "\tconfirmed-RequestPDU\t[0] \tIMPLICIT Confirmed-RequestPDU,\n" +
+                "\tconfirmed-ResponsePDU\t[1] \tIMPLICIT Confirmed-ResponsePDU,\n" +
+                "\tconfirmed-ErrorPDU\t\t[2] \tIMPLICIT Confirmed-ErrorPDU,\n" +
+                "\tunconfirmed-PDU\t\t\t[3] \tIMPLICIT Unconfirmed-PDU,\n" +
+                "\trejectPDU\t\t\t\t[4] \tIMPLICIT RejectPDU,\n" +
+                "\tcancel-RequestPDU\t\t[5] \tIMPLICIT Cancel-RequestPDU,\n" +
+                "\tcancel-ResponsePDU\t\t[6] \tIMPLICIT Cancel-ResponsePDU,\n" +
+                "\tcancel-ErrorPDU\t\t\t[7] \tIMPLICIT Cancel-ErrorPDU,\n" +
+                "\tinitiate-RequestPDU\t\t[8] \tIMPLICIT Initiate-RequestPDU,\n" +
+                "\tinitiate-ResponsePDU\t[9] \tIMPLICIT Initiate-ResponsePDU,\n" +
+                "\tinitiate-ErrorPDU\t\t[10] \tIMPLICIT Initiate-ErrorPDU,\n" +
+                "\tconclude-RequestPDU\t\t[11] \tIMPLICIT Conclude-RequestPDU,\n" +
+                "\tconclude-ResponsePDU\t[12] \tIMPLICIT Conclude-ResponsePDU,\n" +
+                "\tconclude-ErrorPDU\t\t[13] \tIMPLICIT Conclude-ErrorPDU\n" +
+                "\t}");
+
         switch (tag) {
             case 0:
                 return new ConfirmedRequest().process(getData(), getIed());

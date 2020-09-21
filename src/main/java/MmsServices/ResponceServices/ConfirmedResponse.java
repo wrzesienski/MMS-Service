@@ -1,7 +1,7 @@
 package MmsServices.ResponceServices;
 
-import MmsServices.ServiceConnector;
 import MmsServices.HighStructServiceBody;
+import MmsServices.ServiceConnector;
 
 /*
 ConfirmedServiceResponse  ::= CHOICE
@@ -92,17 +92,28 @@ public class ConfirmedResponse extends HighStructServiceBody {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("" +
+                "ConfirmedServiceResponse  ::= CHOICE\n" +
+                "\t{\n" +
+                "\tstatus\t\t\t\t\t\t\t[0]\tIMPLICIT Status-Response,\n" +
+                "\tgetNameList\t\t\t\t\t\t[1]\tIMPLICIT GetNameList-Response,\n" +
+                "\tidentify\t\t\t\t\t\t[2]\tIMPLICIT Identify-Response,\n" +
+                "\trename\t\t\t\t\t\t\t[3]\tIMPLICIT Rename-Response,\n" +
+                "\tread\t\t\t\t\t\t\t[4]\tIMPLICIT Read-Response,\n" +
+                "\twrite\t\t\t\t\t\t\t[5]\tIMPLICIT Write-Response,\n" +
+                "\treadJournal\t\t\t\t\t\t[65]\tIMPLICIT ReadJournal-Response,\n"
+);
+
         switch (tag) {
             case 0: // StatusRequest
                 return new StatusResponse().process(null, getIed()); // here should be bool
             case 1:
                 return new GetNameListResponse().process(getData(), getIed());
-            case 2: // IdentifyRequest
-                return new IdentifyResponse().process(getData(), getIed()); // here should be bool
             case 3:
                 return new GetDataValuesResponse().process(getData(), getIed());
             case 4:
-                return null;
+                return new SetDataValuesResponse().process(getData(), getIed());
             case 5:
                 return null;
 //            case 71: // GetCapabilityList

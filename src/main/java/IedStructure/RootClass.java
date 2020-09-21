@@ -73,6 +73,25 @@ public abstract  class RootClass implements ControlInterface{
         return childs;
     }
 
+    public ArrayList<RootClass> getChilds(SclClass clazz){
+        ArrayList<RootClass> ret = new ArrayList<>();
+        if(getChilds()==null){
+            return null;
+        }
+        for(RootClass rt: getChilds()){
+            if(rt.getType().equals(clazz)){
+                ret.add(rt);
+            }
+            else {
+                ArrayList<RootClass> r = getChilds(clazz);
+                if(r!=null){ ret.addAll(r);
+            }
+        } return ret;
+
+    }        return ret;
+    }
+
+
     public RootClass getChild(String id){
         // id format "iedName$LdName$"
         if(getChilds()==null){

@@ -8,6 +8,22 @@ import java.util.List;
 
 public abstract class NodeConnector extends RootClass implements ConnectInterface {
 
+
+
+    private ArrayList<Data> mes;
+    private HashMap<String, Object> measures;
+
+    public NodeConnector(RootClass dad, ArrayList<String> list){
+        setDad(dad);
+
+        for(String s: list){
+            addMes(s);
+        }
+        configData();
+        setRootName(dad.getRootName()+"$Engine");
+    }
+
+
     public ArrayList<Data> getMes() {
         return mes;
     }
@@ -35,18 +51,20 @@ public abstract class NodeConnector extends RootClass implements ConnectInterfac
         this.mes = mes;
     }
 
-
-    private ArrayList<Data> mes;
-    private HashMap<String, Object> measures;
-
-    public NodeConnector(RootClass dad, ArrayList<String> list){
-        setDad(dad);
-
-        for(String s: list){
-            addMes(s);
+    public ArrayList<String> getNameList(){
+        ArrayList<String> ret = new ArrayList<>();
+        for(Data str: mes){
+            ret.add(str.getName());
         }
-        configData();
-        setRootName(dad.getRootName()+"$Engine");
+        return ret;
+    }
+
+    public HashMap<String, Object> getMeasMap(){
+        HashMap<String, Object> ret = new HashMap<>();
+        for(Data d: getMes()){
+            ret.put(d.getName(), d.getMean());
+        }
+        return ret;
     }
 
 
@@ -73,19 +91,12 @@ public abstract class NodeConnector extends RootClass implements ConnectInterfac
     }
 
     public void setMean(String str, Object obj) {
-        measures.replace(str, obj);
-    }
-
-    public void setMean(String str, Double obj) {
-        measures.replace(str, obj);
-    }
-
-    public void setMean(String str, Boolean obj) {
-        measures.replace(str, obj);
-    }
-
-    public void setMean(String str, Integer obj) {
-        measures.replace(str, obj);
+        for (Data d: getMes()){
+            if(d.getName().equals(str)){
+                d.setMean(obj);
+                break;
+            }
+        }
     }
 
 

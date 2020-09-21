@@ -17,7 +17,6 @@ public class RelayLogicManager {
     private double minTripPoint = KOEF * (impedance + KOEF_2 * cutOffTrip); // миниальный ток срабатывания защиты
 
 
-
     private double timeWait, iniTime; // время до срабатывания защиты / время пуска защиты
     private double timeSet = Double.POSITIVE_INFINITY; // время срабатывания защиты
     private boolean boo, key = false;
@@ -49,7 +48,6 @@ public class RelayLogicManager {
 
         if (timeWait >= timeSet) boo = true; // флаг срабатывания защиты
 
-//        TimeDiagramChart.addAnalogData(2, 3, minTripPoint);
 
         return boo;
     }
@@ -59,18 +57,17 @@ public class RelayLogicManager {
             iniTime = digitSignal.getTime();
             key = true;
 
-        if (digitSignal.isTriggered(cutOffTrip)) timeSet = 1000; // время срабатывания токовой отсечки
-        else timeSet = 50000; // время срабатывания ДЗ
-    }}
+            if (digitSignal.isTriggered(cutOffTrip)) timeSet = 1000; // время срабатывания токовой отсечки
+            else timeSet = 50000; // время срабатывания ДЗ
+        }}
 
     private void delaunchAuthority(){
         if(!digitSignal.isTriggered(0.95 * minTripPoint) ){ // дребезг
-        key = false;
-        timeSet = Double.POSITIVE_INFINITY;
-    }}
+            key = false;
+            timeSet = Double.POSITIVE_INFINITY;
+        }}
 
     private void setTrip(boolean trip) {
-//        TimeDiagramChart.addDiscreteData(0, trip);
 //        System.out.println(bl.isUnderBlock(10));
         if (trip & bl.isUnderBlock(10)) launchAuthority(); // условие отключения блокировки
         else delaunchAuthority();

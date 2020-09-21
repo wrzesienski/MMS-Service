@@ -30,6 +30,13 @@ public class GetDataValuesRequest extends HighStructServiceBody {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("" +
+                "Read-Request ::= SEQUENCE\n" +
+                "\t{\n" +
+                "\tspecificationWithResult\t\t[0] IMPLICIT BOOLEAN DEFAULT FALSE,\n" +
+                "\tvariableAccessSpecificatn\t[1] VariableAccessSpecification\n" +
+                "\t}");
         switch (tag){
             case 0:
 //                return CodeConverter.dataToHex(ooo());
@@ -44,7 +51,7 @@ public class GetDataValuesRequest extends HighStructServiceBody {
         String rootName = CodeTypeConverter.convertHexToString(getData());
         NodeConnector node = (NodeConnector) getIed().getChild(rootName);
         String ret =rootName+"##";
-        for (Object str: node.getMeasures().entrySet()){
+        for (Object str: node.getMeasMap().entrySet()){
             ret+=str+"$";
         }
         ret+=" " + tag + " ";

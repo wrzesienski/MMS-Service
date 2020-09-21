@@ -24,26 +24,13 @@ public class SetDataValuesRequest extends HighStructServiceBody {
     public String choice(int tag) {
         switch (tag){
             case 0:
-//                setValues();
+                setValues();
                 break;
             default:
                 return "2";
         }
         return null;
     }
-//
-//    public void ooo(){
-//        String[] str = getData().replaceAll(" ", "").split("$");
-//        for(LogicalDevice ld: getIed().getLogicalDevices()){
-//            if(ld.getRootName().equals(str[0])){
-//                for(LogicalNode ln: ld.getLogicalNodeList()){
-//                    if (ln.getRootName().equals(str[1])){
-//                        ln.getMeasruments().replace(str[2], str[3]);
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     @Override
     public String build(String data) {
@@ -61,13 +48,19 @@ public class SetDataValuesRequest extends HighStructServiceBody {
 
     public String setValues(){
         String[] aa = CodeTypeConverter.convertHexToString(getData()).split("##");
-        String[] bb = aa[1].split("[$]");
-        String[] cc = aa[2].split("[$]");
+//        String[] bb = aa[1].split("[$]");
+////        String[] cc = aa[2].split("[$]");
         NodeConnector node = (NodeConnector) getIed().getChild(aa[0]);
-        for(int i=0; i<bb.length; i++){
-            if(node.getMeasures().get(bb[i])!=null) {
-                node.setMean(bb[i], cc[i]);
-            }  }
+        if(node.getMeasMap().get(aa[1])!=null){
+            node.setMean(aa[1],aa[2]);
+
+        }
+//        HashMap<String, Object> a = node.getMeasMap().get(aa[1]);
+//        for(int i=0; i<bb.length; i++){
+//            if(node.getMeasMap().get(bb[i])!=null) {
+//                node.setMean(bb[i], cc[i]);
+//            }  }
+//        return null;
         return null;
     }
 }

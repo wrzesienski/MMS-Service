@@ -104,6 +104,8 @@
                     </LN>
                     <LN lnClass="CSWI" inst="1" prefix="" lnType="CSWI1">
                         <ReportControl confRev="0" bufTime="0" intgPd="0" datSet="Mod" name="urcb2"/>
+                        <ReportControl confRev="0" bufTime="0" intgPd="0" datSet="OpOpn" name="urcb2"/>
+                        <ReportControl confRev="0" bufTime="0" intgPd="0" datSet="OpCls" name="urcb2"/>
                         <DOI name="Mod">
                             <DAI name="ctlVal">
 <Val>1</Val>

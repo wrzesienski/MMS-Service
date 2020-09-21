@@ -12,17 +12,17 @@ import java.util.Scanner;
 
 public class Server {
 
-private int serverPort = 8999;
-int clientPort = 9000;
+    private int serverPort = 8999;
+    int clientPort = 9000;
 
     private ServerSocket serverSocket;
     private IED ied;
-    PrintWriter printWriter;
+    private PrintWriter printWriter;
 
     public Server(IED ied) throws IOException {
-            setIed(ied);
-         serverSocket = new ServerSocket(serverPort);
-            String str = "/Users/Alexander/JavaProjects/MMS-Service/src/main/resources/Attempt2.scd";
+        setIed(ied);
+        serverSocket = new ServerSocket(serverPort);
+        String str = "/Users/Alexander/JavaProjects/MMS-Service/src/main/resources/Attempt2.scd";
         IedConfigurator.configIed(ied); // парсинг scl
         ied.setScadaServer(this);
         ied.start();
@@ -30,21 +30,18 @@ int clientPort = 9000;
         MmsPDU mmsPDU = new MmsPDU();
 
         Thread thread2 = new Thread(() -> {
-            while (true){
+            while (true) {
                 try {
                     Socket socket = serverSocket.accept();
 
-                System.out.println("НАШЕЛ КЛИЕНТА");
-                Scanner scanner = new Scanner(socket.getInputStream());
-                    System.out.println("aa");
-                if(scanner.hasNextLine()) {
+                    System.out.println("Connection accepted");
+                    Scanner scanner = new Scanner(socket.getInputStream());
+                    if (scanner.hasNextLine()) {
 
-                  String  s = scanner.nextLine();
-                    System.out.println(s);
+                        String s = scanner.nextLine();
 
                     String ob = mmsPDU.process(s, ied);
 
-                    System.out.println(ob);
                     if(ob !=null){
                         sendEvent(ob);
                     }
@@ -73,12 +70,11 @@ int clientPort = 9000;
 
     public void sendEvent(String str){
         try {
-            System.out.println("init send");
             Socket socket = new Socket("localhost", clientPort);
             printWriter = new PrintWriter(socket.getOutputStream(), true);
             printWriter.println(str);
-            System.out.println("sended");
             socket.close();
+            System.out.println("Report was send up");
         } catch (IOException e) {
             e.printStackTrace();
         }

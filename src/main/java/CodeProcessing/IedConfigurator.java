@@ -4,10 +4,10 @@ import IedStructure.IED;
 import IedStructure.LogicalDevice;
 import IedStructure.LogicalNode;
 import IedStructure.RootClass;
-import SclBodies.*;
-import TerminalModel.CSWI.SwitchResearcher;
-import TerminalModel.PDIS.ProcessDataManager;
-import TerminalModel.SIMG.HF_Measurement;
+import CodeProcessing.SclBodies.*;
+import TerminalModel.CSWI.CSWI;
+import TerminalModel.PDIS.PDIS;
+import TerminalModel.SIMG.SIMG;
 import TerminalModel.URCB.ReportControl;
 
 import java.util.ArrayList;
@@ -60,11 +60,11 @@ public class IedConfigurator {
     public static RootClass setNode(LogicalNode logicalNode, String nodeClass, ArrayList<String> list){
         switch (nodeClass){
             case "PDIS":
-                return new ProcessDataManager(logicalNode, list);
+                return new PDIS(logicalNode, list);
             case "CSWI":
-                return new SwitchResearcher(logicalNode, list);
+                return new CSWI(logicalNode, list);
             case "SIMG":
-                return new HF_Measurement(logicalNode, list);
+                return new SIMG(logicalNode, list);
                 default:
                 return null;
         }

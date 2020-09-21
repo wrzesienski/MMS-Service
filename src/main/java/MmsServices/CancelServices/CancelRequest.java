@@ -17,6 +17,8 @@ public class CancelRequest extends HighStructServiceBody {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("Cancel-RequestPDU ::= Unsigned32\t-- originalInvokeID\n");
         cancel();
         return null;
     }

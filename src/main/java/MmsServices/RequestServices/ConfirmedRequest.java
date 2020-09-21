@@ -3,7 +3,6 @@ package MmsServices.RequestServices;
 import CodeProcessing.CodeTypeConverter;
 import IedStructure.IED;
 import MmsServices.AbstractService;
-import MmsServices.AssociationServices.AssociationRequest;
 import MmsServices.ServiceConnector;
 
 /*
@@ -104,23 +103,30 @@ public class ConfirmedRequest extends AbstractService {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("ConfirmedServiceRequest  ::= CHOICE\n" +
+                "\t{\n" +
+                "status\t\t\t\t\t\t    [0]\tIMPLICIT Status-Request,\n" +
+                "\tgetNameList\t\t\t\t\t\t[1] IMPLICIT GetNameList-Request,\n" +
+                "\tidentify\t\t\t\t\t\t[2]\tIMPLICIT Identify-Request,\n" +
+                "\trename\t\t\t\t\t\t\t[3]\tIMPLICIT Rename-Request,\n" +
+                "\tread\t\t\t\t\t\t\t[4]\tIMPLICIT Read-Request,\n" +
+                "\twrite\t\t\t\t\t\t\t[5]\tIMPLICIT Write-Request,\n" +
+                "\treadJournal\t\t\t\t\t\t[65] IMPLICIT ReadJournal-Request,\n" +
+
+                "\t}");
+
         switch (tag) {
             case 0: // StatusRequest
                 return new StatusRequest().process(null, getIed()); // here should be bool
             case 1:
                 return new GetNameListRequest().process(getData(), getIed());
-            case 2: // IdentifyRequest
-//                return new IdentifyRequest().process(IDK.vmd.identify()); // here should be bool
-            case 3:
-                return new RenameRequest().process(getData(), getIed());
             case 4:
                 return new GetDataValuesRequest().process(getData(), getIed());
             case 5:
                 return new SetDataValuesRequest().process(getData(), getIed());
 //            case 71: // GetCapabilityList
 //                return new ConfirmedResponse().build(getVmd().getCapabList());
-            case 8:
-                return new AssociationRequest().process(getData(), getIed());
             case 65:
                 return new ReadJournalRequest().process(getData(), getIed());
             default:
@@ -167,6 +173,9 @@ public class ConfirmedRequest extends AbstractService {
                 ret = choice(getId().getTag());
             }else {
                 ret = "Error 1";
+            }
+            if(ret==null){
+                return null;
             }
             if(ret.split(" ")[0].equals("Error")){
                 return ServiceConnector.getError(this, ret.split(" ")[1]);

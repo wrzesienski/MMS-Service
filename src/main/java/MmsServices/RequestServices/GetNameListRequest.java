@@ -32,6 +32,13 @@ public class GetNameListRequest extends HighStructServiceBody {
     @Override
     public String choice(int tag) {
 
+        System.out.println("GetNameList-Request ::= SEQUENCE\n" +
+                "\t{\n" +
+                "\tobjectClass\t\t[0] IMPLICIT INTEGER,\n" +
+                "\tobjectScope \t\t[1] CHOICE,\n" +
+                "\tcontinueAfter \t[2] IMPLICIT Identifier OPTIONAL\n" +
+                "\t}");
+
         switch (tag) {
             case 0:
                 return getLP(tag);
@@ -64,7 +71,7 @@ public class GetNameListRequest extends HighStructServiceBody {
         RootClass root = getIed().getChild(rootName);
         String ret= rootName+"##";
         for(RootClass ro: root.getChilds()){
-            ret+=ro.getRootName()+"$";
+            ret+=ro.getRootName()+"##";
         }
         ret+=" " + tag + " ";
         return ret;
@@ -74,10 +81,10 @@ public class GetNameListRequest extends HighStructServiceBody {
         String rootName = CodeTypeConverter.convertHexToString(getData().replaceAll(" ", ""));
 
         NodeConnector con  =(NodeConnector) getIed().getChild(rootName);
-        ArrayList<String> ob = new ArrayList<>(con.getMeasures().keySet());
+        ArrayList<String> ob = new ArrayList<>(con.getNameList());
         String ret= rootName+"##";
         for (String key: ob){
-            ret+=ob+"$";
+            ret+=ob+"##";
         }
         ret+=" " + String.valueOf(tag)+ " ";
         return ret;

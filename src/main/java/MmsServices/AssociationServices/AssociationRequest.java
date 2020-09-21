@@ -36,16 +36,31 @@ public class AssociationRequest extends HighStructServiceBody {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("Initiate-RequestPDU ::= SEQUENCE\n" +
+                "\t{\n" +
+                "\tlocalDetailCalling\t        \t\t[0] IMPLICIT Integer32 OPTIONAL,\n" +
+                "\tproposedMaxServOutstandingCalling\t[1] IMPLICIT Integer16,\n" +
+                "\tproposedMaxServOutstandingCalled\t[2] IMPLICIT Integer16,\n" +
+                "\tproposedDataStructureNestingLevel\t[3] IMPLICIT Integer8 OPTIONAL,\n" +
+                "\tmmsInitRequestDetail\t\t\t\t[4] IMPLICIT InitRequestDetail\n\n" +
+                "\t}");
         switch (tag) {
             case 0:
                 return null;
             case 1:
                 return null;
             case 2:
+
+                System.out.println(
+                        "\tproposedMaxServOutstandingCalled\t[2] IMPLICIT Integer16,\n\n"
+                );
                 return setInitTime(tag);
             case 3:
                 return null;
             case 4:
+                System.out.println("\tmmsInitRequestDetail\t\t\t\t[4] IMPLICIT InitRequestDetail\n\n"
+                );
                 return getServices(tag);
             default:
                 return null;

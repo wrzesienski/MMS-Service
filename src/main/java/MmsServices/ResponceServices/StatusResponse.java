@@ -59,5 +59,5 @@ public class StatusResponse extends AbstractService {
             setLength(splitData[1]);
             return choice(getId().getTag());
         }
-        return "Error";    }
+        return "Error 0";    }
 }

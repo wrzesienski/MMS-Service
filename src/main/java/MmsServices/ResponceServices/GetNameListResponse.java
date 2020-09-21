@@ -24,6 +24,15 @@ public class GetNameListResponse extends HighStructServiceBody {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("GetNamedVariableListAttributes-Response ::= SEQUENCE\n" +
+                "//        {\n" +
+                "//        mmsDeletable\t\t[0] IMPLICIT BOOLEAN,\n" +
+                "//        AccessResultResponce\t\t[1] IMPLICIT SEQUENCE OF SEQUENCE\n" +
+                "//        {\n" +
+                "//        [0] variableSpecification \t\tVariableSpecification,\n" +
+                "//        alternateAccess\t\t\t[5] IMPLICIT AlternateAccess OPTIONAL\n\n" +
+                "//        }");
         System.out.println(CodeTypeConverter.convertHexToString(getData()));
 //        switch (tag){
 //            case 0:

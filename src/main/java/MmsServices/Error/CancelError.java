@@ -13,6 +13,13 @@ public class CancelError extends Error {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("Cancel-ErrorPDU ::= SEQUENCE\n" +
+                "\t{\n" +
+                "\toriginalInvokeID\t[0] IMPLICIT Unsigned32,\n" +
+                "\tserviceError\t\t[1] IMPLICIT ServiceError\n" +
+                "\t}");
+
         switch (tag){
             case 0:
                 System.out.println("Причина 0");;

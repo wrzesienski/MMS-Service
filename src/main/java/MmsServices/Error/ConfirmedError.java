@@ -130,6 +130,9 @@ public class ConfirmedError extends Error {
 
     @Override
     public String choice(int tag) {
+
+        System.out.println("ServiceError ::= SEQUENCE");
+
         switch (tag){
             case 0:
                 System.out.println("Причина 0");;

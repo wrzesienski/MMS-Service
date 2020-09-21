@@ -8,7 +8,6 @@ import IedStructure.IED;
 public abstract class AbstractService extends ASN1Body implements ServiceInterface {
 
 
-
     private String textStructLink;
     private IED ied; // ied, с которым работает сервис
     private ServiceType service; // принцип обработки данных сервиса

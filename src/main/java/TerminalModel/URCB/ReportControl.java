@@ -24,13 +24,14 @@ public class ReportControl extends NodeConnector {
     public ReportControl(LogicalNode ln){
         this(ln, null);
         order = true;
+        setType(SclClass.REPORT);
     }
 
-    public void setPrisoner(NodeConnector prisoner){
+    private void setPrisoner(NodeConnector prisoner){
         this.prisoner = prisoner;
     }
 
-    public NodeConnector getPrisoner(){
+    private NodeConnector getPrisoner(){
         return prisoner;
     }
 
@@ -38,7 +39,7 @@ public class ReportControl extends NodeConnector {
         return sigUnderCon;
     }
 
-    public void setSigUnderCon(String sigUnderCon) {
+    private void setSigUnderCon(String sigUnderCon) {
         this.sigUnderCon = sigUnderCon;
     }
 
@@ -46,7 +47,7 @@ public class ReportControl extends NodeConnector {
         return nodeUnderCon;
     }
 
-    public void setNodeUnderCon(String nodeUnderCon) {
+    private void setNodeUnderCon(String nodeUnderCon) {
         this.nodeUnderCon = nodeUnderCon;
     }
 
@@ -55,7 +56,7 @@ public class ReportControl extends NodeConnector {
         в классе Report в measures записана ссылка на одну измеряемую Value
         возвращается с square brackets, которые удаляются вручную
          */
-        setSigUnderCon(String.valueOf(getMeasures().keySet()).replaceAll("\\[|\\]", ""));
+        setSigUnderCon(String.valueOf(getNameList().get(0)));
         NodeConnector prisoner = getDad().getNodeObj();
         setNodeUnderCon(prisoner.getRootName());
         assert prisoner!=null : "NOT FOUND NEEDED PRISONER VALUE";
@@ -87,7 +88,8 @@ public class ReportControl extends NodeConnector {
             while (order) {
 
                 // парсинг конфигурации файла
-                if (!((Boolean) getPrisoner().getNeededMes(sigUnderCon).getMean()).equals(trip)) {
+                if (!((Boolean.parseBoolean(String.valueOf(getPrisoner().getNeededMes(sigUnderCon).getMean())))== trip)) {
+                    System.out.println("Event started!");
                     IED ied = (IED) getDadByType(SclClass.IED);
                     String str = new EventNotification().build(setReport());
                     ((IED) getDadByType(SclClass.IED)).addToJournal(str);
@@ -99,7 +101,7 @@ public class ReportControl extends NodeConnector {
                     }
                 }
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -107,6 +109,11 @@ public class ReportControl extends NodeConnector {
             }
           });
         thread.start();
+    }
+
+    @Override
+    public void configData() {
+
     }
 
     @Override
@@ -118,7 +125,7 @@ public class ReportControl extends NodeConnector {
      * метод отправки отчетов
      * @return
      */
-    public String setReport(){
+    private String setReport(){
      StringBuilder rep = new StringBuilder();
         rep.append("_").append(sigUnderCon);
         rep.append("_").append(nodeUnderCon);

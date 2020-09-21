@@ -5,7 +5,7 @@ import CodeProcessing.ConfigWorker;
 import IedStructure.IED;
 import MmsServices.HighStructServiceBody;
 import MmsServices.ServiceConnector;
-import SclBodies.SCL;
+import CodeProcessing.SclBodies.SCL;
 
 import java.util.ArrayList;
 

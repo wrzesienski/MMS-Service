@@ -170,8 +170,6 @@ public class CodeTypeConverter {
 
     }
 
-
-
     public static String dataToHex(ArrayList<RootClass> lisr) {
         String ret = "";
         if (lisr.isEmpty()) {

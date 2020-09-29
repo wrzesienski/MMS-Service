@@ -45,6 +45,7 @@ public class AssociationRequest extends HighStructServiceBody {
                 "\tproposedDataStructureNestingLevel\t[3] IMPLICIT Integer8 OPTIONAL,\n" +
                 "\tmmsInitRequestDetail\t\t\t\t[4] IMPLICIT InitRequestDetail\n\n" +
                 "\t}");
+
         switch (tag) {
             case 0:
                 return null;
@@ -67,8 +68,13 @@ public class AssociationRequest extends HighStructServiceBody {
         }
     }
 
-    private String setInitTime(int tag) {
-        if (setAddress()) {
+    /**
+     * метод позволяет засетить время предполагаемой ассоциации с клиентом
+     * @param tag
+     * @return
+     */
+    private String setInitTime(int tag) { // доделать
+        if (isInGreenList()) {
             ArrayList<String> retData = new ArrayList<>();
             retData.add(String.valueOf(Integer.parseInt(
                     CodeTypeConverter.convertHexToString(getData()).split("[$]")[0])));
@@ -92,11 +98,12 @@ public class AssociationRequest extends HighStructServiceBody {
             }
             ArrayList<String> ret = new ArrayList<>();
             ret.add(retServ);
-            ret.add("4");
+            ret.add(String.valueOf(tag));
             return CodeTypeConverter.s_dataToHex(ret);
     }
 
-    public boolean setAddress() {
+
+    public boolean isInGreenList() {
         HashMap<Integer, Double> associations = getIed().getAssociations();
         String dat = CodeTypeConverter.convertHexToString(getData());
         String[] dataa = dat.split("[$]");

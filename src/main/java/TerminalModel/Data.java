@@ -23,9 +23,7 @@ public class Data{
 
     public enum Type{
         ONLY_OPERATE,
-        ONLY_READ,
-        ALL
-    }
+        ONLY_READ}
 
     public Object getMean() {
         return mean;

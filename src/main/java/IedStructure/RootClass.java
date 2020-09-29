@@ -5,23 +5,29 @@ import TerminalModel.NodeConnector;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * класс формирования древовидной структуры модели IED
+ */
 public abstract  class RootClass implements ControlInterface{
 
     private String rootName;
-    private SclClass type;
-
-    private ArrayList<RootClass> childs;
-    private RootClass dad;
+    private SclClass type; // root type
+    private ArrayList<RootClass> childs; // root childs
+    private RootClass dad; // root dad
 
     public RootClass getDad() {
         return dad;
     }
 
+    /**
+     * method finds cousins by type
+     * @param sclClass type
+     * @return cousin
+     */
     public RootClass getDadByType(SclClass sclClass){
-        boolean flag = true;
 
             RootClass dad = getDad();
-            if(dad.equals(null)) {return null;}
+            if(dad == null) {return null;}
             if (dad.getType()==sclClass){
                 return dad;
             }
@@ -50,40 +56,39 @@ public abstract  class RootClass implements ControlInterface{
         this.rootName = rootName;
     }
 
-    public void addChilds(ArrayList<RootClass> childs) {
-        if(getChilds()==null){
-            setChilds(new ArrayList<>());
+    public void addChildList(ArrayList<RootClass> childs) {
+        if(getChildList()==null){
+            setChildList(new ArrayList<>());
         }
-        getChilds().addAll(childs);
+        getChildList().addAll(childs);
     }
 
     public void addChild(RootClass child){
-        if(getChilds()==null){
-            setChilds(new ArrayList<>());
+        if(getChildList()==null){
+            setChildList(new ArrayList<>());
         }
-
-        getChilds().add(child);
+        getChildList().add(child);
     }
 
-    public void setChilds(ArrayList<RootClass> childs) {
+    public void setChildList(ArrayList<RootClass> childs) {
         this.childs = childs;
     }
 
-    public ArrayList<RootClass> getChilds(){
+    public ArrayList<RootClass> getChildList(){
         return childs;
     }
 
-    public ArrayList<RootClass> getChilds(SclClass clazz){
+    public ArrayList<RootClass> getChildListByType(SclClass clazz){
         ArrayList<RootClass> ret = new ArrayList<>();
-        if(getChilds()==null){
+        if(getChildList()==null){
             return null;
         }
-        for(RootClass rt: getChilds()){
+        for(RootClass rt: getChildList()){
             if(rt.getType().equals(clazz)){
                 ret.add(rt);
             }
             else {
-                ArrayList<RootClass> r = getChilds(clazz);
+                ArrayList<RootClass> r = getChildListByType(clazz);
                 if(r!=null){ ret.addAll(r);
             }
         } return ret;
@@ -91,18 +96,17 @@ public abstract  class RootClass implements ControlInterface{
     }        return ret;
     }
 
-
-    public RootClass getChild(String id){
+    public RootClass getChildByName(String id){
         // id format "iedName$LdName$"
-        if(getChilds()==null){
+        if(getChildList()==null){
             return null;
         }
 
-            for (RootClass rc: getChilds()) {
+            for (RootClass rc: getChildList()) {
                 if (rc.getRootName().equals(id)) {
                     return rc;
                 } else {
-                    RootClass ret = rc.getChild(id);
+                    RootClass ret = rc.getChildByName(id);
                     if (ret != null) return ret;
 
                 }
@@ -111,8 +115,10 @@ public abstract  class RootClass implements ControlInterface{
             return null;
     }
 
+
+    // костылевато
     public NodeConnector getNodeObj(){
-        for(RootClass rootClass: getChilds()){
+        for(RootClass rootClass: getChildList()){
             if (rootClass.getType().equals(SclClass.LN_BODY)){
                 return (NodeConnector) rootClass;
             }
@@ -122,7 +128,7 @@ public abstract  class RootClass implements ControlInterface{
 
     @Override
     public void start() throws IOException {
-        for(RootClass child: getChilds()){
+        for(RootClass child: getChildList()){
             if(child!=null) child.start();
         }
     }

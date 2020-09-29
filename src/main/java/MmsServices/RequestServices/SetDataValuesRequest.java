@@ -50,8 +50,8 @@ public class SetDataValuesRequest extends HighStructServiceBody {
         String[] aa = CodeTypeConverter.convertHexToString(getData()).split("##");
 //        String[] bb = aa[1].split("[$]");
 ////        String[] cc = aa[2].split("[$]");
-        NodeConnector node = (NodeConnector) getIed().getChild(aa[0]);
-        if(node.getMeasMap().get(aa[1])!=null){
+        NodeConnector node = (NodeConnector) getIed().getChildByName(aa[0]);
+        if(node.getDataMeasuresHash().get(aa[1])!=null){
             node.setMean(aa[1],aa[2]);
 
         }

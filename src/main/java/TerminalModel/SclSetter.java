@@ -47,9 +47,9 @@ public class SclSetter extends RootClass {
 
     ArrayList<HashMap<String, Object>> getMeasures(){
         ArrayList<HashMap<String, Object>> aa = new ArrayList<>();
-        ArrayList <RootClass> rt = getDad().getChilds(SclClass.LN_BODY);
+        ArrayList <RootClass> rt = getDad().getChildListByType(SclClass.LN_BODY);
         for(RootClass a: rt){
-            HashMap<String, Object> asd = ((NodeConnector) a).getMeasMap();
+            HashMap<String, Object> asd = ((NodeConnector) a).getDataMeasuresHash();
             aa.add(asd);
         }
         return aa;

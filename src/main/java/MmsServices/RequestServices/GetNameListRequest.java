@@ -68,9 +68,9 @@ public class GetNameListRequest extends HighStructServiceBody {
     private String getLP(int tag){
         ArrayList<String> ob = new ArrayList<>();
         String rootName = CodeTypeConverter.convertHexToString(getData().replaceAll(" ", ""));
-        RootClass root = getIed().getChild(rootName);
+        RootClass root = getIed().getChildByName(rootName);
         String ret= rootName+"##";
-        for(RootClass ro: root.getChilds()){
+        for(RootClass ro: root.getChildList()){
             ret+=ro.getRootName()+"##";
         }
         ret+=" " + tag + " ";
@@ -80,8 +80,8 @@ public class GetNameListRequest extends HighStructServiceBody {
     private String getDatSet(int tag){
         String rootName = CodeTypeConverter.convertHexToString(getData().replaceAll(" ", ""));
 
-        NodeConnector con  =(NodeConnector) getIed().getChild(rootName);
-        ArrayList<String> ob = new ArrayList<>(con.getNameList());
+        NodeConnector con  =(NodeConnector) getIed().getChildByName(rootName);
+        ArrayList<String> ob = new ArrayList<>(con.getDataNameList());
         String ret= rootName+"##";
         for (String key: ob){
             ret+=ob+"##";

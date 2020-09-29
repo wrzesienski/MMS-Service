@@ -49,9 +49,9 @@ public class GetDataValuesRequest extends HighStructServiceBody {
 
     public String getValues(int tag){
         String rootName = CodeTypeConverter.convertHexToString(getData());
-        NodeConnector node = (NodeConnector) getIed().getChild(rootName);
+        NodeConnector node = (NodeConnector) getIed().getChildByName(rootName);
         String ret =rootName+"##";
-        for (Object str: node.getMeasMap().entrySet()){
+        for (Object str: node.getDataMeasuresHash().entrySet()){
             ret+=str+"$";
         }
         ret+=" " + tag + " ";

@@ -7,14 +7,22 @@ import MmsServices.Error.CancelError;
 import MmsServices.Error.ConfirmedError;
 import MmsServices.Error.UnconfirmedError;
 import MmsServices.RequestServices.ConfirmedRequest;
-import MmsServices.RequestServices.SetDataValuesRequest;
-import MmsServices.ResponceServices.*;
+import MmsServices.ResponceServices.ConfirmedResponse;
+import MmsServices.ResponceServices.GetDataValuesResponse;
+import MmsServices.ResponceServices.GetNameListResponse;
+import MmsServices.ResponceServices.StatusResponse;
 import MmsServices.UnconfirmedServices.UncomfirmedService;
 
+/**
+ * class connector of:
+ * - request-response;
+ * - child-dad;
+ * - class-error.
+ */
 public class ServiceConnector {
 
     /**
-     * method let's build response on service request
+     * method lets to build response on service request
      * @param obj service
      * @param msg message
      * @return
@@ -125,14 +133,6 @@ public class ServiceConnector {
 
     private static String addChoice(int tag, String data){
         return CodeTypeConverter.stickMessage(data, CodeTypeConverter.stickId(1, 1, Integer.parseInt(Integer.toBinaryString(tag))));
-    }
-
-    public static void makeRequest(String service, String msg){
-        switch (service){
-            case "WriteRequest":
-                new SetDataValuesRequest().build(msg);
-                break;
-        }
     }
 
     public static String getError(Object obj, String msg){

@@ -2,12 +2,11 @@ package MmsServices.UnconfirmedServices;
 
 import CodeProcessing.CodeTypeConverter;
 import IedStructure.IED;
-import MmsServices.DownStructServiceBody;
+import MmsServices.LowStructServiceBody;
 import MmsServices.ServiceConnector;
-
 import java.util.ArrayList;
 
-public class EventNotification extends DownStructServiceBody {
+public class EventNotification extends LowStructServiceBody {
     @Override
     public String choice(int tag) {
         return null;
@@ -18,7 +17,6 @@ public class EventNotification extends DownStructServiceBody {
         ArrayList<String> l = new ArrayList<>();
         l.add(data);
         l.add("0");
-
         return ServiceConnector.getParent(this, CodeTypeConverter.s_dataToHex(l));
     }
 

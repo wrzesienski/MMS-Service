@@ -116,8 +116,6 @@ public class ConfirmedResponse extends HighStructServiceBody {
                 return new SetDataValuesResponse().process(getData(), getIed());
             case 5:
                 return null;
-//            case 71: // GetCapabilityList
-//                return new ConfirmedResponse().build(getVmd().getCapabList());
             default:
                 return null;
         }

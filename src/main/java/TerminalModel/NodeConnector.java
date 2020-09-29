@@ -4,34 +4,32 @@ import IedStructure.RootClass;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public abstract class NodeConnector extends RootClass implements ConnectInterface {
 
-
-
-    private ArrayList<Data> mes;
-    private HashMap<String, Object> measures;
+    private ArrayList<Data> measures;
 
     public NodeConnector(RootClass dad, ArrayList<String> list){
         setDad(dad);
 
         for(String s: list){
-            addMes(s);
+            addMeasuringData(s);
         }
         configData();
         setRootName(dad.getRootName()+"$Engine");
     }
 
 
-    public ArrayList<Data> getMes() {
-        return mes;
+    public ArrayList<Data> getMeasuresList() {
+        return measures;
     }
-    public Data getNeededMes(String name){
-        if(mes==null){
+
+
+    public Data getDataByName(String name){
+        if(measures ==null){
             return null;
         }
-        for(Data d: mes){
+        for(Data d: measures){
             if(d.getName().equals(name)){
                 return d;
             }
@@ -40,37 +38,31 @@ public abstract class NodeConnector extends RootClass implements ConnectInterfac
 
     }
 
-    public void addMes(String name){
-        if(mes==null){
-            mes= new ArrayList<>();
+    public void addMeasuringData(String name){
+        if(measures ==null){
+            measures = new ArrayList<>();
         }
-        mes.add(new Data(name));
+        measures.add(new Data(name));
     }
 
-    public void setMes(ArrayList<Data> mes) {
-        this.mes = mes;
+    public void setMeasureList(ArrayList<Data> mes) {
+        this.measures = mes;
     }
 
-    public ArrayList<String> getNameList(){
+    public ArrayList<String> getDataNameList(){
         ArrayList<String> ret = new ArrayList<>();
-        for(Data str: mes){
+        for(Data str: measures){
             ret.add(str.getName());
         }
         return ret;
     }
 
-    public HashMap<String, Object> getMeasMap(){
+    public HashMap<String, Object> getDataMeasuresHash(){
         HashMap<String, Object> ret = new HashMap<>();
-        for(Data d: getMes()){
+        for(Data d: getMeasuresList()){
             ret.put(d.getName(), d.getMean());
         }
         return ret;
-    }
-
-
-    @Override
-    public HashMap<String, Object> getMeasures() {
-        return measures;
     }
 
 
@@ -79,19 +71,8 @@ public abstract class NodeConnector extends RootClass implements ConnectInterfac
 
     }
 
-    @Override
-    public HashMap<String, Object> addMeasures(List<String> list) {
-        if(getMeasures()==null) {
-            measures = new HashMap<>();
-        }
-        for (String str : list) {
-            measures.put(str, false);
-        }
-        return measures;
-    }
-
     public void setMean(String str, Object obj) {
-        for (Data d: getMes()){
+        for (Data d: getMeasuresList()){
             if(d.getName().equals(str)){
                 d.setMean(obj);
                 break;

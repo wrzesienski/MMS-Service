@@ -35,6 +35,8 @@ public class SIMG extends NodeConnector {
         Thread thread = new Thread(() -> {
             while (true){
 
+
+                // сделать адекватный рандом
                 Random rnd = new Random(System.currentTimeMillis());
 
                 temp = 1 + rnd.nextInt(4 - 1);
@@ -77,7 +79,7 @@ public class SIMG extends NodeConnector {
 
     @Override
     public void rebuildMeasures() {
-        for (Data d: getMes()) {
+        for (Data d: getMeasuresList()) {
             switch (d.getName()) {
                 case "Temp":
                     d.setMean(temp);
@@ -102,7 +104,7 @@ public class SIMG extends NodeConnector {
     }
 
     public void configData() {
-        for (Data dat : getMes()) {
+        for (Data dat : getMeasuresList()) {
             switch (dat.getName()) {
 
                 case "Temp":

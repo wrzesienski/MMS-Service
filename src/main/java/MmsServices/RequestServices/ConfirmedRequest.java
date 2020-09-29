@@ -113,20 +113,17 @@ public class ConfirmedRequest extends AbstractService {
                 "\tread\t\t\t\t\t\t\t[4]\tIMPLICIT Read-Request,\n" +
                 "\twrite\t\t\t\t\t\t\t[5]\tIMPLICIT Write-Request,\n" +
                 "\treadJournal\t\t\t\t\t\t[65] IMPLICIT ReadJournal-Request,\n" +
-
                 "\t}");
 
         switch (tag) {
             case 0: // StatusRequest
-                return new StatusRequest().process(null, getIed()); // here should be bool
+                return new StatusRequest().process(getData(), getIed());
             case 1:
                 return new GetNameListRequest().process(getData(), getIed());
             case 4:
                 return new GetDataValuesRequest().process(getData(), getIed());
             case 5:
                 return new SetDataValuesRequest().process(getData(), getIed());
-//            case 71: // GetCapabilityList
-//                return new ConfirmedResponse().build(getVmd().getCapabList());
             case 65:
                 return new ReadJournalRequest().process(getData(), getIed());
             default:
@@ -136,18 +133,12 @@ public class ConfirmedRequest extends AbstractService {
 
     @Override
     public String build(String data) {
-//        return BuildPointer.getParent(this,
-//                CodeTypeConverter.convertIntToHex("1") + " " + data);
         return ServiceConnector.getParent(this,
                 CodeTypeConverter.stickMessage(
                         CodeTypeConverter.convertIntToHex(String.valueOf(123)),
                         CodeTypeConverter.stickId(0,0,0) ) + " " + data);
     }
 
-//    @Override
-//    public String build() {
-//        return null;
-//    }
 
     @Override
     public String process(String data, IED ied) {
@@ -160,24 +151,25 @@ public class ConfirmedRequest extends AbstractService {
             setLength(splitData[1]);
             setContent(splitData[2]);
             for (int in: getIed().getAssociations().keySet()){
+                // проверка вхождения id в зеленый список
                 if(getContent()==in){
                     boo = true;
                     break;
                 }
             }
-            if (boo){ // проверка пароля "1" по умолчанию
+            if (boo){
                 splitData = splitData[3].split(" ", 3);
                 setId(splitData[0]);
                 setLength(splitData[1]);
                 setData(splitData[2]);
                 ret = choice(getId().getTag());
             }else {
-                ret = "Error 1";
+                ret = "Error 1"; // подправить/ошибка идентификации
             }
             if(ret==null){
-                return null;
+                return null; // данных на выход нет
             }
-            if(ret.split(" ")[0].equals("Error")){
+            if(ret.split(" ")[0].equals("Error")){ // ошибка возникла ниже по иерархии
                 return ServiceConnector.getError(this, ret.split(" ")[1]);
             }
             return ret;

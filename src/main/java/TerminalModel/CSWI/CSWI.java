@@ -5,7 +5,6 @@ import IedStructure.SclClass;
 import TerminalModel.Data;
 import TerminalModel.NodeConnector;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -13,18 +12,17 @@ import java.util.ArrayList;
  */
 public class CSWI extends NodeConnector {
 
-    private boolean pos = true;
-    private boolean orderOn = false;
-    private boolean orderOff = false;
+    private boolean pos = true; // switch position
+    private boolean orderOn = false; // order to switch ON
+    private boolean orderOff = false; // order to switch OFF
 
     public CSWI(LogicalNode logicalNode, ArrayList<String> meas){
         super(logicalNode, meas);
         setType(SclClass.LN_BODY);
-
     }
 
     @Override
-    public void start() throws IOException {
+    public void start(){
         Thread thread = new Thread(() -> {
             while (true) {
                 pos = checkOrders();
@@ -41,7 +39,7 @@ public class CSWI extends NodeConnector {
 
     @Override
     public void rebuildMeasures() {
-        for (Data d: getMes()) {
+        for (Data d: getMeasuresList()) {
             switch (d.getName()) {
                 case "Mod":
                     d.setMean(pos);
@@ -57,7 +55,7 @@ public class CSWI extends NodeConnector {
     }
 
     public void configData(){
-        for(Data dat: getMes()){
+        for(Data dat: getMeasuresList()){
             switch (dat.getName()){
                 case "Mod":
                     dat.setType(Data.Type.ONLY_READ);

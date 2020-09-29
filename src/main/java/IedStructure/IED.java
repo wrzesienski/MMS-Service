@@ -21,8 +21,7 @@ public class IED extends RootClass{
 
 
     private ArrayList<String> journal;
-
-    private int id;
+    private int id; // root id
     private String sclLink;
     private Server server;
     private HashMap<Integer, Double> associations = new HashMap<>();
@@ -114,7 +113,7 @@ public class IED extends RootClass{
 
     @Override
     public void start() throws IOException {
-        for(RootClass child: getChilds()){
+        for(RootClass child: getChildList()){
             if(child!=null) child.start();
         }
     }

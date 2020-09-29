@@ -18,7 +18,7 @@ public class GetDataValuesResponse extends HighStructServiceBody {
     public String choice(int tag) {
         String[] d = getData().split("##");
         SCL scl = ConfigWorker.unMarshalAny(SCL.class, getIed().getSclLink());
-
+        // допилить ребилд конфиг файла
         return null;
     }
 

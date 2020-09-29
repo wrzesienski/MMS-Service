@@ -161,7 +161,7 @@ public class PDIS extends NodeConnector {
 
     @Override
     public void rebuildMeasures() {
-        for (Data d: getMes()) {
+        for (Data d: getMeasuresList()) {
             switch (d.getName()) {
                 case "BlkZn":
                     d.setMean(bm.isBlocker());
@@ -177,7 +177,7 @@ public class PDIS extends NodeConnector {
     }
 
     public void configData(){
-        for(Data dat: getMes()){
+        for(Data dat: getMeasuresList()){
             switch (dat.getName()){
                 case "BlkZn":
                     dat.setType(Data.Type.ONLY_READ);

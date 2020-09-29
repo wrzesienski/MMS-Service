@@ -2,7 +2,7 @@ package MmsServices;
 
 import IedStructure.IED;
 
-public abstract class DownStructServiceBody extends AbstractService {
+public abstract class LowStructServiceBody extends AbstractService {
 
     @Override
     public String process(String data, IED ied) {

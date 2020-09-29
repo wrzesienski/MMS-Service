@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Client {
-    private int ClietnPort = 8999;
-    private String link = "/Users/Alexander/JavaProjects/MMS-Service/src/main/resources/Attempt.scd";
+
+    private int clientPort = 8999;
+    private String configLink = "/Users/Alexander/JavaProjects/MMS-Service/src/main/resources/Attempt.scd";
     private Socket socket;
     private MmsPDU mmsPDU;
-    private int id = 123;
+    private int id = 123; // device id
     private ServerSocket serverSocket;
 
     public Client() throws IOException {
@@ -38,27 +39,23 @@ public class Client {
 
                 Scanner Conscanner;
                 try {
-                    System.out.println("Доступные сервисы:\n" +
-                            "Req - составление запроса\n" +
-                            "Acc - инициализация подключения\n" +
-                            "Can - инициализация стоп");
+                    System.out.println("available services:\n" +
+                            "Req - request making\n" +
+                            "Acc - connect initialization\n" +
+                            "Can - initialization cancel");
 
                     Conscanner = new Scanner(System.in);
 
+                    if (Conscanner.hasNext()) { // console is not null
 
-                    // парсинг конфигурации файла
-
-
-                    if (Conscanner.hasNext()) {
-
-                        System.out.println("Соединение с сервером установлено");
+                        System.out.println("connection accepted");
                         PrintWriter printWriter;
                         String str = processUserCommand(Conscanner.nextLine());
-                        if (str != null) {
+                        if (str != null) { // if user command has sense
                             try {
-                                socket = new Socket("localhost", ClietnPort);
+                                socket = new Socket("localhost", clientPort);
                                 printWriter = new PrintWriter(socket.getOutputStream(), true);
-                                printWriter.println(str);
+                                printWriter.println(str); // make request
                                 printWriter.close();
                                 System.out.println("message sended");
                             }
@@ -67,6 +64,9 @@ public class Client {
                             }
                             socket.close();
 
+                        }
+                        else {
+                            System.out.println("некорректный запрос");
                         }
                     }
 
@@ -92,12 +92,10 @@ public class Client {
 
                     ServerScanner = new Scanner(socket.getInputStream());
 
-                    // парсинг конфигурации файла
-
-                    if (ServerScanner.hasNextLine()) {
+                    if (ServerScanner.hasNextLine()) { // got mes
                         String str = ServerScanner.nextLine();
-                        System.out.println("Got message" );
-                        mmsPDU.process(str, new IED(link, id));
+                        System.out.println("u got message" );
+                        mmsPDU.process(str, new IED(configLink, id));
 
                     }
 
@@ -114,15 +112,12 @@ public class Client {
 
     }
 
-
-
     /**
      * метод обработки команд пользователя
      * @param str
      * @return
      */
     public String processUserCommand(String str){
-        String name;
         switch (str){
             case "Req":
                 return setRequest();
@@ -141,7 +136,7 @@ public class Client {
 
         public String setAssociation(){
             String ret = "";
-            System.out.println("U choose Assocoation");
+            System.out.println("Association");
 
             boolean boo = true;
             while (boo){
@@ -180,7 +175,7 @@ public class Client {
         ArrayList<String> services = getServices();
         if(services==null){
             System.out.println("There's no services. Make association with IED or" +
-                    " set new services");
+                    " set new services before operating");
             return null;
         }
         System.out.println("You can choose next services:");
@@ -193,7 +188,7 @@ public class Client {
         try{
             choice = Integer.parseInt((new Scanner(System.in)).nextLine());
         } catch (NumberFormatException e){
-            System.out.println("U wrote wrong format. Repeat");
+            System.out.println("U wrote wrong format. Repeat, please");
             return setRequest();
         };
 
@@ -225,7 +220,7 @@ public class Client {
      * @return
      */
     public ArrayList<String> getServices() {
-        SCL scl = ConfigWorker.unMarshalAny(SCL.class, link);
+        SCL scl = ConfigWorker.unMarshalAny(SCL.class, configLink);
         ArrayList<TS> services = scl.getIED().get(0).getServices().getServices();
         ArrayList<String> ss = new ArrayList<>();
         try{

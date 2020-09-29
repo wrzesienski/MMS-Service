@@ -9,12 +9,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * class of event notification
+ */
 public class ReportControl extends NodeConnector {
-    private String sigUnderCon;
-    private String nodeUnderCon;
+    private String sigUnderCon; // signal under control
+    private String nodeUnderCon; // node name under control
     private boolean trip;
     private boolean order;
-    private NodeConnector prisoner;
+    private NodeConnector prisoner; // controlled node
 
     public ReportControl(LogicalNode logicalNode, String underCon){
         super(logicalNode, new ArrayList<String>(Collections.singleton(underCon)));
@@ -56,13 +59,13 @@ public class ReportControl extends NodeConnector {
         в классе Report в measures записана ссылка на одну измеряемую Value
         возвращается с square brackets, которые удаляются вручную
          */
-        setSigUnderCon(String.valueOf(getNameList().get(0)));
+        setSigUnderCon(String.valueOf(getDataNameList().get(0)));
         NodeConnector prisoner = getDad().getNodeObj();
         setNodeUnderCon(prisoner.getRootName());
         assert prisoner!=null : "NOT FOUND NEEDED PRISONER VALUE";
         setPrisoner(prisoner);
 
-        setTrip((Boolean) getPrisoner().getNeededMes(sigUnderCon).getMean());
+        setTrip((Boolean) getPrisoner().getDataByName(sigUnderCon).getMean());
         System.out.println("");
     }
 
@@ -85,22 +88,27 @@ public class ReportControl extends NodeConnector {
     @Override
     public void start() {
           Thread thread = new Thread(() -> {
-            while (order) {
+            while (order) { // пока не скажут замолчать
 
                 // парсинг конфигурации файла
-                if (!((Boolean.parseBoolean(String.valueOf(getPrisoner().getNeededMes(sigUnderCon).getMean())))== trip)) {
+                if (!((Boolean.parseBoolean(String.valueOf(
+                        // если наблюдаемая величина изменила свое значение с дефолтного
+                        getPrisoner().getDataByName(sigUnderCon).getMean())))== trip)) {
+
                     System.out.println("Event started!");
                     IED ied = (IED) getDadByType(SclClass.IED);
-                    String str = new EventNotification().build(setReport());
-                    ((IED) getDadByType(SclClass.IED)).addToJournal(str);
-                    ied.getServer().sendEvent(str);
-                    try {
+                    String event = makeReport(); // создаем отчет по событию
+                    ((IED) getDadByType(SclClass.IED)).addToJournal(event); // запись в лог событий
+                    String str = new EventNotification().build(event); // создание оповещения клиенту
+                    ied.getServer().sendMessage(str); // отправка сообщения о событии
+
+                    try { // засыпаем на 10с
                         Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                try {
+                try { // засыпаем на 10с
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -125,7 +133,7 @@ public class ReportControl extends NodeConnector {
      * метод отправки отчетов
      * @return
      */
-    private String setReport(){
+    private String makeReport(){
      StringBuilder rep = new StringBuilder();
         rep.append("_").append(sigUnderCon);
         rep.append("_").append(nodeUnderCon);

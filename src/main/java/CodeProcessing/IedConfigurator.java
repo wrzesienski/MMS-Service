@@ -22,7 +22,7 @@ public class IedConfigurator {
      * конфигурируем IED
      * @param ied объект ied
      */
-    public static void configIed(IED ied){
+    public static void configIED(IED ied){
         SCL scl = ConfigWorker.unMarshalAny(SCL.class, ied.getSclLink());
         TIED tied = scl.getIED().get(0);
         ArrayList<TS> services = tied.getServices().getServices();
@@ -31,17 +31,17 @@ public class IedConfigurator {
                 ied.addIedService(service.getSs());
 
         }
-        ied.addChilds(getLDList(tied.getAccessPoint().get(0).getServer().getLDevice(), ied));
+        ied.addChildList(getLDList(tied.getAccessPoint().get(0).getServer().getLDevice(), ied));
 
     }
 
     public static void configLD(LogicalDevice logicalDevice, TLDevice tlDevice){
-        logicalDevice.addChilds(getLNList(tlDevice.getLN(), logicalDevice));
+        logicalDevice.addChildList(getLNList(tlDevice.getLN(), logicalDevice));
     }
 
     public static void configLN(LogicalNode logicalNode, TLN tln){
         logicalNode.addChild(setNode(logicalNode, tln.getLnClass().get(0), getValues(tln)));
-        logicalNode.addChilds(configReport(logicalNode, tln.getReportControl()));
+        logicalNode.addChildList(configReport(logicalNode, tln.getReportControl()));
     }
 
     public static ArrayList<RootClass> configReport(LogicalNode logicalNode, List<TReportControl> treportControls){
@@ -86,13 +86,11 @@ public class IedConfigurator {
 
     public static ArrayList<RootClass> getLNList(List<TLN> tlnList, LogicalDevice logicalDevice){
         ArrayList<RootClass> logicalNodes = new ArrayList<>();
-        int tag = 1;
         for (TLN tln: tlnList){
             LogicalNode logicalNode = new LogicalNode(logicalDevice);
             logicalNode.setRootName(logicalDevice.getRootName()+"$" + tln.getLnType());
             configLN(logicalNode, tln);
             logicalNodes.add(logicalNode);
-            tag++;
         }
         return logicalNodes;
     }
